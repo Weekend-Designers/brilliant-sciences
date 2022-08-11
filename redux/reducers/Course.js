@@ -3,45 +3,18 @@ const initials = {
     preview: "",
     price: "",
     published: true,
-    reviews: "pysViWHMQksO0KM79HxX",
+    reviews: "",
     subject: "",
     tags: [],
     thumbnail: "",
-    title: "Title",
+    title: "",
     traffic: "",
-    author: "Admin",
-    biography: "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing",
-    video: "/spykids4.mp4",
-    sections: [{
-        stamp: 1,
-        title: "Section One",
-    },{
-        stamp: 33,
-        title: "Section Two",
-    },{
-        stamp: 77,
-        title: "Section Three",
-    },{
-        stamp: 95,
-        title: "Section Four",
-    }],
-    description: [{
-        title: "About the Video",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing",
-    },{
-        title: "Notes",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing",
-    },{
-        title: "Reference",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet, consectetur adipiscing",
-    }],
-    assesment: [{
-        question: "Hello, world",
-        options: ["hi", "hey", "what up?", "hello"]
-    },{
-        question: "Hi there, world",
-        options: ["hello", "hey", "greetings"]
-    }],
+    author: "",
+    biography: "",
+    video: "",
+    sections: [],
+    description: [],
+    assesment: [],
 }
 
 const reducer = (state = initials, action) => {
