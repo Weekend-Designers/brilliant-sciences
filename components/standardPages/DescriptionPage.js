@@ -17,12 +17,13 @@ import ImageCard from "../ImageCard"
 import {maxWords} from "../../utils"
 import { useSelector } from "react-redux";
 
-export default () => {
+export default ({hidden}) => {
   const description = useSelector(state => state.Course.description)
   const author = useSelector(state => state.Course.author)
   const biography = useSelector(state => state.Course.biography)
   return (
     <Stack style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       padding: "1rem"

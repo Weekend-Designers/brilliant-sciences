@@ -12,7 +12,7 @@ import Player from "react-player"
 import { useSelector } from "react-redux";
 import { extractKey } from "../../utils";
 
-export default () => {
+export default ({hidden}) => {
   const [started, setStarted] =  useState(false)
   const [ready, setReady] =  useState(false)
   const [playing, setPlaying] =  useState(true)
@@ -66,6 +66,7 @@ export default () => {
   return (
     <Stack
     style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       padding: "1rem"

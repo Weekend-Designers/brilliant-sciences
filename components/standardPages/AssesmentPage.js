@@ -16,13 +16,14 @@ import ContentCard from "../ContentCard"
 import ImageCard from "../ImageCard"
 import { useSelector } from "react-redux";
 
-export default () => {
+export default ({hidden}) => {
   const assesment = useSelector(state => state.Course.assesment)
   const [question, setQuestion] = useState(0)
   const [checked, setChecked] = useState(-1)
 
   return (
     <Stack style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       padding: "1rem"
