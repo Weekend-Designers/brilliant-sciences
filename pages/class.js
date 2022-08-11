@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react"
+import {Fragment, useEffect, useState} from "react"
 import {Stack, Button} from "@mui/material"
 import MenuButton from "../components/MenuButton"
 import Footer from "../components/Footer"
@@ -17,7 +17,7 @@ export default () => {
     if(!video || !title){
       router.push("/search")
     }
-  }, [])
+  }, [video, title])
 
   return (
     <div style={{
