@@ -36,10 +36,10 @@ export default ({ className }) => {
 
         }}>
             {router.pathname != "/" && <li><a href="/">home</a></li>}
-            {router.pathname != "/class" && <li><a href="/class">class</a></li>}
             {router.pathname != "/about" && <li><a href="/about">about</a></li>}
+            {router.pathname != "/class" && <li><a href="/class">class</a></li>}
             {router.pathname != "/search" && <li><a href="/search">search</a></li>}
-            {router.pathname != "/search" && <li><a href="/search">account</a></li>}
+            {router.pathname != "/search" && <li><a href="/account">account</a></li>}
         </ul>
         <div className={classList("flex","flex-1","justify-end","align-center")}>
             {(
