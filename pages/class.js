@@ -5,8 +5,20 @@ import Footer from "../components/Footer"
 import VideoPage from "../components/standardPages/VideoPage"
 import DescriptionPage from "../components/standardPages/DescriptionPage"
 import AssesmentPage from "../components/standardPages/AssesmentPage"
+import { useSelector } from "react-redux"
+import { useRouter } from "next/router"
 export default () => {
+  const router = useRouter()
   const [pager, setPager] = useState(1)
+  const video = useSelector(state => state.Course.video)
+  const title = useSelector(state => state.Course.title)
+
+  useEffect(() => {
+    if(!video || !title){
+      router.push("/search")
+    }
+  }, [video, title])
+
   return (
     <div style={{
       display: "flex",
@@ -28,14 +40,17 @@ export default () => {
           <Button variant="outlined" href="/account">Exit Class</Button>
       </Stack>
       <Stack style={{
-        // padding: "1rem",
-        flex: 1,
-        flexDirection: "column",
-        overflow: "overlay",
-        minHeight: "100vh",
-        // background: "green"
-        }}>
-          {renderPage(pager)}
+      // padding: "1rem",
+      flex: 1,
+      flexDirection: "column",
+      overflow: "overlay",
+      minHeight: "100vh",
+      // background: "green"
+      }}>
+        {/* {renderPage(pager)} */}
+        <VideoPage hidden={pager == 1}/>
+        <DescriptionPage hidden={pager == 2}/>
+        <AssesmentPage hidden={pager == 4}/>
         <Footer style={{backgroundColor: "white", margin: "2rem 0"}}/>
       </Stack>
     </div>
