@@ -64,6 +64,11 @@ export default ({id, name, text, image, video, price, onClick}) => {
             ? (
               <Stack style={{
                 position: "absolute",
+                zIndex: 60,
+                color: "white",
+                padding: "3rem 0",
+                width: "100%",
+                alignItems: "center",
               }}>
                 {video ? "" : "No Preview available"}
               </Stack>
