@@ -14,10 +14,10 @@ export default () => {
   const title = useSelector(state => state.Course.title)
 
   useEffect(() => {
-    if(!(video || title)){
+    if(!video || !title){
       router.push("/search")
     }
-  }, [video, title])
+  }, [])
 
   return (
     <div style={{
