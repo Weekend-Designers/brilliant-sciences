@@ -13,7 +13,16 @@ export default ({text, options, value, onChange}) => {
         {
           options && (
             options.map((opt, index) => (
-              <MenuItem value={index+1} onClick={()=>{setValue(index+1);try{onChange(opt)}catch(e){try{onChange(opt, index+1)}catch(e){}}}}>{opt}</MenuItem>
+              <MenuItem value={index+1} onClick={()=>{
+                setValue(index+1);
+                try{
+                  onChange(opt, index+1)
+                }catch(e){
+                  try{
+                    onChange(opt)
+                  }catch(e){}
+                }
+              }}>{opt}</MenuItem>
             ))
           )
         }

@@ -1,13 +1,15 @@
 import {Fragment} from "react"
 import {Button, Stack, Checkbox, Typography} from "@mui/material"
 
-export default ({text, style, valueProps, checkBox, checked, buttons, spacing}) => {
+export default ({text, style, valueProps, checkBox, checked, buttons, spacing, onChecked}) => {
   return (
     <Stack style={style} justifyContent="space-between" alignItems="center" direction="row">
       {
         checkBox
         ? <Stack direction="row" alignItems="center" spacing={1}>
-            <Checkbox defaultChecked={checked}/>
+            <Checkbox defaultChecked={checked} onChange={(e) => {
+              try{onChecked(e.target.checked)}catch(e){}
+            }}/>
             <Typography style={{fontSize: "1rem", fontWeight: "normal"}}>{text}</Typography>
           </Stack>
         : <Typography style={{fontSize: "1rem", fontWeight: "normal"}}>{text}</Typography>

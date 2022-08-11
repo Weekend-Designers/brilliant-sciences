@@ -2,10 +2,6 @@
     display: flex;
 }
 
-.flex-end {
-    flex-direction: flex-end;
-}
-
 .flex-start {
     flex-direction: flex-start;
 }
@@ -30,8 +26,16 @@
     justify-content: space-evenly;
 }
 
+.justify-end {
+    justify-content: flex-end;
+}
+
 .align-center {
     align-items: center;
+}
+
+.align-end {
+    align-items: flex-end;
 }
 
 .flex-column {

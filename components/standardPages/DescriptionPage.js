@@ -14,8 +14,13 @@ import {
 } from '@mui/icons-material';
 import ContentCard from "../ContentCard"
 import ImageCard from "../ImageCard"
+import {maxWords} from "../../utils"
+import { useSelector } from "react-redux";
 
 export default () => {
+  const description = useSelector(state => state.Course.description)
+  const author = useSelector(state => state.Course.author)
+  const biography = useSelector(state => state.Course.biography)
   return (
     <Stack style={{
       flex: 1,
@@ -26,33 +31,27 @@ export default () => {
         flex: 1,
         marginRight: "1rem"
       }}>
-        <ContentCard title="About the Video">
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-        </ContentCard>
-        <ContentCard title="Notes">
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-        </ContentCard>
-        <ContentCard title="References">
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-          Lorem ipsum dolor sit amet, consectetur adipiscing
-        </ContentCard>
-        <ContentCard title="Author">
+        {description && description.length > 0
+        ? (description.map(desc => (
+          <ContentCard title={desc.title}>
+            {desc.text}
+          </ContentCard>
+        )))
+        : (
+          <ContentCard>
+            Sorry, No Description Available
+          </ContentCard>
+        )}
+        {author && biography
+        ? (<ContentCard title="Author">
           <ImageCard src="/apparatus.jpg" content={
             [
-              ["Name", "{{Name}}"],
-              ["Bio", `{{
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-                Lorem ipsum dolor sit amet, consectetur adipiscing
-              }}`]
+              ["Name", author],
+              ["Bio", maxWords(biography)]
             ]
           }/>
-        </ContentCard>
+        </ContentCard>)
+        : (<Fragment/>)}
       </Stack>
     </Stack>
   )

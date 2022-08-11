@@ -1,12 +1,27 @@
-import {Fragment} from "react"
+import {Fragment, useEffect, useState} from "react"
 import {Stack, CircularProgress} from "@mui/material"
 import SearchCard from "../../components/SearchCard"
 import SearchItem from "../../components/SearchItem"
 import SearchIcon from '@mui/icons-material/Search'
 import ProgressField from "../../components/ProgressField"
+import getcourses from "../../helpers/getcourses"
+import {SET} from "../../redux/actions"
+import {useDispatch} from "react-redux"
+import {useRouter} from "next/router"
 
 export default () => {
-  const is_searching = false
+  const [is_searching, set_is_searching] = useState(false)
+  const [courses, setCourses] = useState([])
+  const dispatch = useDispatch()
+  const router = useRouter()
+  
+  useEffect(() => {
+    getcourses((data) => {
+      setCourses(data)
+      console.log(data);
+    })
+  }, [])
+
   return (
     <div>
       <Stack style={{
@@ -15,7 +30,9 @@ export default () => {
         padding: "1rem"
       }}>
         <Stack flex={1}>
-          <Stack direction="row" justifyContent="space-between">
+          <Stack direction="row" justifyContent="space-between" style={{
+            padding: "0 5.5rem",
+          }}>
             {
               is_searching
               ? <h3 style={{margin: ".5rem 0 1rem 0", textAlign: "center"}}>Search results for :  "{"{{search text}}"}"</h3>
@@ -36,7 +53,7 @@ export default () => {
                 gridTemplateColumns: "repeat(auto-fill, 13rem)",
                 gridGap: "1rem",
                 gridAutoRows: "15rem"
-              }}>{renderSearchCards()}</Stack>
+              }}>{renderSearchCards(courses, dispatch, router)}</Stack>
             )
             : (
               <Stack style={{
@@ -58,13 +75,31 @@ export default () => {
   )
 }
 
-const renderSearchCards = () => {
+const renderSearchCards = (courses, dispatch, router) => {
   let output = Array()
-  for (let i = 0; i < 13; i++) {
-    output.push(<SearchCard id={i} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
-    // output.push(<SearchCard id={i} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="https://go.wootly.ch/dash?source=web&id=9ed25eb85a1ce6b0c19f6fa1b4e72a5c49f871c0&sig=sasAL3sljgOpCtmjgvJIog&expire=1649711414&ofs=8&usr=40843"/>)
+  if(courses.length > 0){
+    for (let i = 0; i < courses.length; i++) {
+      const course = courses[i]
+      output.push(
+        <SearchCard id={i}
+          name={course.title}
+          text={course.description}
+          price={course.price}
+          image={course.thumbnail}
+          video={course.preview}
+          onClick={() => {
+            console.log("Any Luck?");
+            dispatch(SET("init course", course))
+            router.push("/class")
+        }}/>
+      )
+      // output.push(<SearchCard id={i} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="https://go.wootly.ch/dash?source=web&id=9ed25eb85a1ce6b0c19f6fa1b4e72a5c49f871c0&sig=sasAL3sljgOpCtmjgvJIog&expire=1649711414&ofs=8&usr=40843"/>)
+    }
+    output.push(<SearchCard id={courses.length} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
+    return output
+  }else{
+    return "No data"
   }
-  return output
 }
 
 const renderSearchItems = () => {

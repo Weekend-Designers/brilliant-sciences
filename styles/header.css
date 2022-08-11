@@ -3,25 +3,45 @@
 }
 
 .Header ul {
-    padding: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255, 20%);
+    /* background-color: rgb(0 0 0 / 20%); */
+}
+
+.Header ul+div>a {
+    color: #1976d2;
+    border-color: #1976d2;
+    height: 2.3rem;
+}
+
+.Header ul+div>a:hover {
+    background-color: #1976d2;
+    color: white;
 }
 
 .Header li {
     list-style: none;
-    color: hsl(283, 39%, 70%, 80%);
-    font-size: 1.5rem;
+    color: #1976d2;
+    font-size: 1.3rem;
     font-weight: 600;
-    letter-spacing: .03rem;
+    letter-spacing: .07rem;
     cursor: pointer;
+    width: 7.5rem;
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Header li:hover {
+    background-color: #1976d2;
+    color: white;
 }
 
 .Header a {
     text-decoration: none;
     color: inherit;
-}
-
-.Header li:hover {
-    color: hsl(0, 0%, 100%, 90%);
 }
 
 .Header .logo {

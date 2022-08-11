@@ -9,11 +9,14 @@ import {
   Pause as PauseIcon,
 } from '@mui/icons-material';
 import Player from "react-player"
+import { useSelector } from "react-redux";
+import { extractKey } from "../../utils";
 
 export default () => {
   const [started, setStarted] =  useState(false)
-  const [playing, setPlaying] =  useState(false)
-  const [muted, setMuted] =  useState(false)
+  const [ready, setReady] =  useState(false)
+  const [playing, setPlaying] =  useState(true)
+  const [muted, setMuted] =  useState(true)
   const [fullScreen, setFullScreen] =  useState(false)
   const [volume, setVolume] =  useState(1)
   const [initial_volume, set_initial_volume] =  useState(volume)
@@ -23,8 +26,19 @@ export default () => {
   const [duration, setDuration] =  useState(0)
   const [timeStamp, setTimeStamp] =  useState([0, 0, 0])
   const [was_playing, set_was_playing] =  useState(false)
+  const [marks, setMarks] =  useState([])
+  const [sectionTitle, setSectionTitle] =  useState("")
   const video_player_ref = useRef("video_player_ref")
   const video_player_conatiner_ref = useRef("video_player_conatiner_ref")
+  const video = useSelector(state => state.Course.video)
+  const title = useSelector(state => state.Course.title)
+  const sections = useSelector(state => state.Course.sections)
+
+  useEffect(() => {
+    let _marks = extractKey(sections, "stamp")
+    console.log(_marks.map(value => ({value})));
+    setMarks(_marks.map(value => ({value})))
+  }, [])
 
   useEffect(() => {
     console.log(duration)
@@ -34,6 +48,20 @@ export default () => {
     // video_player_ref.current.seekTo(progress * duration / 100, "seconds")
     // console.log("t", progress * duration / 100)
   }, [duration])
+
+  useEffect(() => {
+    let _marks = extractKey(sections, "stamp")
+    console.log(progress);
+    _marks = _marks.sort()
+    console.log(_marks);
+    for (let index = 0; index < _marks.length; index++) {
+      if(_marks[index] <= progress  && progress < _marks[index+1]){
+        setSectionTitle(sections[index].title)
+        console.log("Success");
+        break;
+      }
+    }
+  }, [progress])
   
   return (
     <Stack
@@ -58,7 +86,7 @@ export default () => {
             width: "100%",
             color: "white",
             background: "linear-gradient(180deg, hsl(0deg 0% 0% / 30%), transparent 90%)"
-            }}>{"{{"}Headin'{"}}"}</h3>
+            }}>{title}</h3>
         </Stack>
         <Stack style={{
           backgroundColor: "black",
@@ -86,15 +114,31 @@ export default () => {
               pointerEvents: "none"
             }}
             // url="https://youtu.be/bwmSjveL3Lc"
-            url="/spykids4.mp4"
+            url={video}
             onReady={() => {
               // setPreview(true)
             }}
             pip={false}
+            onDuration={(dur)=>{
+              console.log("Buffer end -- " + dur);
+              setDuration(dur)
+            }}
             config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
             onStart={()=>{
-              setDuration(video_player_ref.current.getDuration())
+              // setDuration(video_player_ref.current.getDuration())
               // video_player_ref.current.seekTo(time_stamp, "seconds")
+              if(!started && (duration > 0) && !ready){
+                setPlaying(false)
+                setMuted(false)
+                video_player_ref.current.seekTo(0, "seconds")
+                setProgress(0)
+                setReady(true)
+              }else{
+                setStarted(true)
+              }
+            }}
+            onEnd={()=>{
+              setPlaying(false)
             }}
             // onPlay={()=>{console.log("playing")}}
             // onPause={()=>console.log("pausing")}
@@ -158,6 +202,7 @@ export default () => {
               onChange={(e) => {
                 video_player_ref.current.seekTo((e.target.value) * duration / 100, "seconds")
                 setProgress(e.target.value)
+                console.log(progress, e.target.value , (e.target.value) * duration / 100);
               }}
               onMouseUp={()=>{
                 if(was_playing){
@@ -166,11 +211,7 @@ export default () => {
                     setPlaying(false)
                 }
               }}
-              marks={[
-                {value: 0},
-                {value: 20},
-                {value: 37}
-              ]}/>
+              marks={marks}/>
               <Stack direction="row" justifyContent="space-between">
                 <Stack direction="row" spacing={1}>
                   <IconButton sx={{color: "white"}} onClick={() => {
@@ -246,7 +287,7 @@ export default () => {
                       // fontWeight: 500,
                       letterSpacing: 0.3,
                       color: "white"
-                    }}>{"{{"}section Name{"}}"}</span>
+                    }}>{sectionTitle}</span>
                   </Stack>
                 </Stack>
                 <Stack direction="row" spacing={2}>

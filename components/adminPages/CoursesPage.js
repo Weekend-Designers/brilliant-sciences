@@ -18,6 +18,7 @@ import ComponentItem from "../settingItems/ComponentItem"
 import ButtonItem from "../settingItems/ButtonItem"
 import {makeIdNotIn, extractIndex} from "../../utils"
 import Player from "react-player"
+import coursepusher from "../../helpers/coursepusher"
 
 const data1 = [
   [0, "Title", 'Traffic', 'Dop', "", ""],
@@ -43,7 +44,7 @@ const data4 = [
   [0, "Time", 'Title', '', ''],
 ]
 
-export default () => {
+export default ({hidden}) => {
   // useEffect(() => {
   //   const styleSheet = getComputedStyle(document.documentElement)
   //   styleSheet.setProperty('--followers-display', 'inline')
@@ -56,6 +57,7 @@ export default () => {
   
   return (
     <Stack style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       height: "100vh",
@@ -159,14 +161,17 @@ const Page2 = ({setNewCoursing}) => {
   const [duration, setDuration] =  useState(0)
   const [buffering, setBuffering] =  useState(false)
   const video_player_ref = useRef("video_player_ref")
-  const [url, setUrl] =  useState()
+  const [url, setUrl] =  useState("")
+  const [video, setVideo] =  useState()
   const [dragAbove, setDragAbove] =  useState(false)
   const [ready, setReady] =  useState(false)
   
   const handleVideoFile = (e) => {
     if(e.target.files[0]){
       setReady(false)
-      const fileUrl = URL.createObjectURL(e.target.files[0])
+      let blob = e.target.files[0]
+      setVideo(blob)
+      const fileUrl = URL.createObjectURL(blob)
       setUrl(fileUrl)
     }
   }
@@ -175,11 +180,26 @@ const Page2 = ({setNewCoursing}) => {
   const [subject, setSubject] = useState(1)
   const [subjectName, setSubjectName] = useState("")
   const [preview, setPreview] = useState()
+  const [thumbnail, setThumbnail] = useState()
+  const [subtitle, setSubtitle] = useState()
   const [tags, setTags] =  useState("")
   const [notes, setNotes] =  useState("")
   const [comment, setComment] = useState("")
-  const [price, setPrice] =  useState(0)
+  const [price, setPrice] =  useState("0")
   const [enableReviews, setEnableReviews] =  useState(true)
+
+  const publish = () => {
+    let allflgs = flags.filter((flg, index) => (index != 0))
+    let sections = extractIndex(allflgs, 4) || []
+    console.log(sections);
+    // TODO: sanitize all text fields to prevent XXS
+    console.log(thumbnail, video);
+    coursepusher(title, subject, tags, notes, comment, price, subtitle, sections, enableReviews, preview, thumbnail, video)
+    
+    // if(allflgs.length > 0){
+    // }else{
+    // }
+  }
 
   return (
     <Stack spacing={1} style={{
@@ -293,7 +313,7 @@ const Page2 = ({setNewCoursing}) => {
                       e.stopPropagation();
                       setRemoveFlag(id)
                     }}><DeleteIcon/></IconButton>,
-                    timeStamp
+                    progress
                   ])
                 }
               }
@@ -309,7 +329,11 @@ const Page2 = ({setNewCoursing}) => {
             overflow: "auto"
           }}>
             <Table className="CoursePage-table" data={flags} hasHelper attributes onClick={(index)=>{
-              console.log("click",index , flags[index])
+              if(index && flags[index][4]){
+                console.log("click",index , flags[index][4])
+                video_player_ref.current.seekTo(((flags[index][4]/100) * duration), "seconds")
+                setProgress(flags[index][4])
+              }
             }}/>
           </ContentCard>
         </Stack>
@@ -336,7 +360,9 @@ const Page2 = ({setNewCoursing}) => {
               e.stopPropagation()
               setDragAbove(false)
               setReady(false)
-              const fileUrl = URL.createObjectURL(e.dataTransfer.files[0])
+              let blob = e.dataTransfer.files[0]
+              const fileUrl = URL.createObjectURL(blob)
+              setVideo(blob)
               setUrl(fileUrl)
             }}
             onClick={(e) => {
@@ -382,6 +408,12 @@ const Page2 = ({setNewCoursing}) => {
                     }}
                     // onPlay={()=>{console.log("playing")}}
                     // onPause={()=>console.log("pausing")}
+                    onEnded={()=>{
+                      setPlaying(false)
+                      video_player_ref.current.seekTo(0, "seconds")
+                      // setProgress(0)
+                      // setTimeStamp([0, 0, 0])
+                    }}
                     onProgress={(state)=>{
                       // (state.played * 100).toFixed(5)
                       setProgress((state.played * 100).toFixed(5))
@@ -418,7 +450,7 @@ const Page2 = ({setNewCoursing}) => {
             </Stack>
           </ContentCard>
           <Button component="label" variant="outlined" startIcon={<SubtitleIcon/>}>
-            <Typography>Add subtitles</Typography>
+            <Typography>Add subtitle file</Typography>
             <input type="file" accept=".srt" hidden onChange={(e) => {
               setSubtitle(e.target.value)
             }}/>
@@ -451,18 +483,25 @@ const Page2 = ({setNewCoursing}) => {
             <Typography>Choose a preview file</Typography>
             <input type="file" accept=".mp4" hidden onChange={(e) => {
               if(e.target.files[0]){
-                const fileUrl = URL.createObjectURL(e.target.files[0])
-                setPreview(fileUrl)
+                let blob = e.target.files[0]
+                const fileUrl = URL.createObjectURL(blob)
+                setPreview(blob)
               }
             }}/>
           </Button>
         }/>
-        {/* <ComponentItem text="Video file" component={
+        <ComponentItem text="Thumbnail image" component={
           <Button component="label" variant="outlined">
-            <Typography>Choose a file</Typography>
-            <input type="file" accept=".mp4" hidden/>
+            <Typography>Choose a thumbnail image</Typography>
+            <input type="file" accept=".jpg, .png" hidden onChange={(e) => {
+              if(e.target.files[0]){
+                let blob = e.target.files[0]
+                const fileUrl = URL.createObjectURL(blob)
+                setThumbnail(blob)
+              }
+            }}/>
           </Button>
-        }/> */}
+        }/>
         <InputItem text="Tags" inputProps={{
           value: tags,
           onChange: (e)=>{
@@ -511,7 +550,7 @@ const Page2 = ({setNewCoursing}) => {
             props: {
               variant: "contained",
               onClick: ()=>{
-                // TODO: Publish
+                publish()
               }
             }
           }

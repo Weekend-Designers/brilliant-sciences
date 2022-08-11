@@ -32,9 +32,16 @@ export const makeId = (length = 15) => {
 
 export const maxWords = (text, length = 15) => {
   let output = String();
-  const regex = new RegExp(`^(.{${length}}[^\s]*).*`)
-  output = text.replace(regex, "$1")
-  output += "..."
+  // const regex = new RegExp(`^((\w){${length}}[^\s]*).*`)
+  // output = text.replace(regex, "$1")
+  let txt1 = text.split(/\s/).slice(0, length)
+  let len = text.length
+  txt1.forEach((ele) => {
+    output += `${ele} `
+  })
+  if(len > length){
+    output += "..."
+  }
   return output;
 }
 
@@ -60,6 +67,18 @@ export const extractIndex = (array = Array(), index = 0) => {
   array.forEach((element) => {
     if(index > -1 && index < element.length){
       output.push(element[index])
+    }
+  })
+  return output
+}
+
+export const extractKey = (array = Array(), key) => {
+  let output = Array()
+  array.forEach((element) => {
+    if(element[key]){
+      output.push(element[key])
+    }else{
+      output.push(undefined)
     }
   })
   return output

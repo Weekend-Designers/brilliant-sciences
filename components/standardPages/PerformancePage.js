@@ -12,9 +12,21 @@ import ImageCard from "../ImageCard"
 import LabelItem from "../settingItems/LabelItem"
 import EvaluationItem from "../settingItems/EvaluationItem"
 
-export default () => {
+export default ({hidden}) => {
+  const pecentage = 85
+  const performanceTable = [
+    ["electricity", true],
+    ["embedded systems", true],
+    ["construction", true],
+    ["music production", true],
+    ["religious education", false],
+    ["telecommunication", true],
+    ["human anatomy", false],
+    ["social studies", true],
+  ]
   return (
     <Stack style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       padding: "1rem"
@@ -26,19 +38,10 @@ export default () => {
         marginRight: "1rem"
       }}>
         <ContentCard title="Performance">
-          <LabelItem text="Overall performance" value="{{percentage}}%"/>
+          <LabelItem text="Overall performance" valueProps={{style: {fontSize: "1.3rem"}}} value={`${pecentage}%`}/>
         </ContentCard>
         <ContentCard title="Taken Courses">
-          <EvaluationItem list={[
-              ["{{course name}}", true],
-              ["{{course name}}", true],
-              ["{{course name}}", true],
-              ["{{course name}}", true],
-              ["{{course name}}", false],
-              ["{{course name}}", true],
-              ["{{course name}}", false],
-              ["{{course name}}", true],
-            ]}/>
+          <EvaluationItem list={performanceTable}/>
         </ContentCard>
       </Stack>
     </Stack>

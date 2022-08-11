@@ -1,4 +1,4 @@
-import {Fragment} from "react"
+import {Fragment, useState} from "react"
 import {Stack, Slider, Button, RadioGroup, FormControlLabel, Radio} from "@mui/material"
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -14,8 +14,13 @@ import {
 } from '@mui/icons-material';
 import ContentCard from "../ContentCard"
 import ImageCard from "../ImageCard"
+import { useSelector } from "react-redux";
 
 export default () => {
+  const assesment = useSelector(state => state.Course.assesment)
+  const [question, setQuestion] = useState(0)
+  const [checked, setChecked] = useState(-1)
+
   return (
     <Stack style={{
       flex: 1,
@@ -26,28 +31,60 @@ export default () => {
         flex: 1,
         marginRight: "1rem"
       }}>
-        <ContentCard style={{display: "flex", flex: 1}} title="{{No}}. {{Assesment Question}}">
-            <RadioGroup sx={{padding: "1rem 1.5rem"}}>
-                {["", "", "", ""].map((opt, index) => (
-                    <FormControlLabel key={index} value={index+1} control={<Radio />} label={`{{Option ${index+1}}}`} />
-                ))}
-            </RadioGroup>
-        </ContentCard>
-        <Stack direction="row" style={{
-            padding: "0 .5rem"
-        }}>
-            <Button variant="contained">{
-                true
-                ? "Cancel"
-                : "Back"
+        {question && (assesment.length > 0)
+        ? (
+          <Fragment>
+            {/* spacing i0 */}
+            <ContentCard style={{display: "flex", flex: 1}} title={`${question+1}. ${assesment[question].question}`}>
+              <RadioGroup sx={{padding: "1rem 1.5rem"}}>
+                  {assesment[question].options.map((opt, index) => (
+                      <FormControlLabel
+                      key={index}
+                      control={<Radio />}
+                      label={opt}
+                      checked={checked == index}
+                      onClick={() => {
+                        setChecked(index)
+                      }}/>
+                  ))}
+              </RadioGroup>
+          </ContentCard>
+          {/* spacing */}
+          <Stack direction="row" style={{
+              padding: "0 .5rem"
+          }}>
+            <Button
+              disabled={question == 0}
+              variant="contained"
+              onClick={() => {
+                if(question > 0){
+                  setQuestion(question - 1)
+                }
+                setChecked(-1)
+            }}>Back</Button>
+            <Stack style={{fontSize: ".8rem"}} className="flex-1" alignItems="center">{question+1}/{assesment.length}</Stack>
+            <Button
+              variant="contained"
+              onClick={() => {
+                if(question == (assesment.length - 1)){
+                  alert("Congratulations you completed your assesment")
+                }else{
+                  setQuestion(question + 1)
+                }
+                setChecked(-1)
+              }}>{
+                  question == (assesment.length - 1)
+                  ? "Submit"
+                  : "Next"
             }</Button>
-            <Stack style={{fontSize: ".8rem"}} className="flex-1" alignItems="center">{"{{"}1/2{"}}"}</Stack>
-            <Button variant="contained">{
-                false
-                ? "Submit"
-                : "Next"
-            }</Button>
-        </Stack>
+          </Stack>
+        </Fragment>)
+        : (
+          <ContentCard>
+            Sorry, No Assesment Available
+          </ContentCard>
+        )
+        }
       </Stack>
     </Stack>
   )

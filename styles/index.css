@@ -6,6 +6,10 @@
     background: transparent;
 }
 
+body {
+    overflow: auto !important;
+}
+
 :root {
     --followers-display: none;
 }
@@ -22,7 +26,7 @@
 .Index>section:first-child {
     /* background: url("/BS hero-01.svg"); */
     /* background: url("https://img.freepik.com/free-vector/science-word-theme_23-2148540555.jpg?size=626&ext=jpg&ga=GA1.2.1109533335.1639440000"); */
-    background: linear-gradient(45deg, black, transparent);
+    background: linear-gradient(45deg, rgb(25 118 210 / 90%), transparent);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -35,7 +39,9 @@
 .Index>section:nth-of-type(1)>*,
 .Index>section:nth-of-type(1)>div>* {
     width: 100%;
-    background-color: hsl(0deg, 0%, 0%, 33%);
+    /* background-color: hsl(0deg, 0%, 0%, 33%); */
+    /* background-color: hsl(0deg 0% 0% / 50%); */
+    background: linear-gradient(90deg, hsl(0deg 0% 0% / 50%), transparent);
 }
 
 .Index .Hero-section>div {
@@ -181,4 +187,25 @@
     outline-width: 1px;
     outline-offset: -0.5rem;
     outline-color: white;
+}
+
+@keyframes bounce-around {
+    0% {
+        margin-left: 0%;
+        width: 17%;
+    }
+    50% {
+        margin-left: 83%;
+        width: 100%;
+    }
+    80% {
+        margin-left: -1%;
+    }
+    100% {
+        width: 17%;
+    }
+}
+
+.bounce-around {
+    animation: bounce-around 2s infinite;
 }

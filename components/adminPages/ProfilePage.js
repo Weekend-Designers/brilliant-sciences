@@ -1,4 +1,4 @@
-import {Fragment, useState} from "react"
+import {Fragment, useState, useEffect} from "react"
 import {Stack, Typography, CircularProgress, Button, Select, MenuItem} from "@mui/material"
 import {
   PlayArrowRounded as PlayIcon,
@@ -10,29 +10,36 @@ import {
 import ContentCard from "../ContentCard"
 import ImageCard from "../ImageCard"
 import SelectItem from "../settingItems/SelectItem"
+import {useSelector} from "react-redux"
+import imagepusher from "../../helpers/imagepusher";
 
-export default () => {
-  const username = "Teacher"
-  const email = "teacher@ovutex.com"
+export default ({hidden}) => {
+  const username = useSelector(state => state.User.username) + " "
+  const email = useSelector(state => state.User.email) + " "
+  const photo = useSelector(state => state.User.photo)
+  const id = useSelector(state => state.User.id)
+  const _theme = useSelector(state => state.User.theme)
 
   const [uploadingImage, setUploadingImage] = useState(false)
-  const [image, setImage] = useState("/apparatus.jpg")
-  const [theme, setTheme] = useState(1)
+  const [image, setImage] = useState(photo || "/apparatus.jpg")
+  const [theme, setTheme] = useState(_theme)
   const [themeName, setThemeName] = useState("")
-  
+
   const handleImageFile = (e) => {
     if(e.target.files[0]){
-      const url = URL.createObjectURL(e.target.files[0])
+      const blob = e.target.files[0]
+      const url = URL.createObjectURL(blob)
       setUploadingImage(true)
-      setTimeout(() => {
+      imagepusher(blob, id, () => {
         setUploadingImage(false)
         setImage(url)
-      }, 5000);
+      })
     }
   }
 
   return (
     <Stack style={{
+      display: hidden ? "flex" : "none",
       flex: 1,
       minHeight: "100vh",
       padding: "1rem"
@@ -48,7 +55,7 @@ export default () => {
             [
               [username],
               [email],
-              [<Button variant="outlined" style={{height: "2rem"}}>Change Password</Button>],
+              [<Button disabled variant="outlined" style={{height: "2rem"}}>Change Password</Button>],
               [<Button component="label" variant="outlined" style={{height: "2rem"}}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography style={{fontSize: ".875rem"}}>Change Profile Picture</Typography>

@@ -1,18 +1,28 @@
 // import {Fragment} from 'react'
 import {Stack, Button} from "@mui/material"
 
-export default ({data, noHeader, color, style, className, hasHelper}) => {
+export default ({data, noHeader, color, style, className, hasHelper, attributes, onClick}) => {
+  const passedData = data
+  const theData = data.map((row)=>(
+    row.filter((cell, index)=>(index != row.length-1))
+  ))
+//   console.log("theData", theData)
+  const rowClick = (index) => {
+    if(index !== 0) {
+      try {onClick(onClick(index))} catch (e) {}
+    }
+  }
   return (
     <div className={className} style={{
         display: "grid",
         ...style
     }}>
-        {renderData(data, noHeader, color, hasHelper)}
+        {renderData((attributes ? theData : data), noHeader, color, hasHelper, rowClick)}
     </div>
   )
 }
 
-const renderData = (data, noHeader, color, hasHelper) => {
+const renderData = (data, noHeader, color, hasHelper, rowClick) => {
     let output = Array()
     const cols = data[0].length - 1
     const rows = data.length
@@ -44,7 +54,7 @@ const renderData = (data, noHeader, color, hasHelper) => {
                 marginBottom:  noHeader ? 0 : ".7rem"
             }}>{temp}</Stack>)
         }else{
-            output.push(<Button key={i} variant="standard" sx={{color: noHeader ? "primary.main" : ""}} direction="row" onClick={() => {console.log(data[i][0])}} style={{
+            output.push(<Button key={i} variant="standard" onClick={(e) => {e.stopPropagation();rowClick(i)}} sx={{color: noHeader ? "primary.main" : ""}} direction="row" style={{
                 // justifyContent: "space-between",
                 justifyContent: "flex-start",
                 textAlign: "start",
