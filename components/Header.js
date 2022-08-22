@@ -54,7 +54,7 @@ export default ({ className }) => {
                 <Button variant="contained" href="/account/signup" style={{
                     marginRight: "1rem",
                     color: "white",
-                }}>Sign Uo</Button>
+                }}>Sign Up</Button>
                 <Button variant="outlined" href="/account/login">Log In</Button>
               </Fragment>
             : <Button variant="outlined" href="/class">Class</Button>}
