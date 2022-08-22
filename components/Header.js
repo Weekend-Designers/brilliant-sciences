@@ -50,7 +50,10 @@ export default ({ className }) => {
                 router.pathname != "/class/[id]" &&
                 !loggedIn // is_logged_in
             )
-            ? <Button variant="outlined" href="/account/login">Log In</Button>
+            ? <Fragment>
+                <Button variant="contained" href="/account/signup">Log In</Button>
+                <Button variant="outlined" href="/account/login">Log In</Button>
+              </Fragment>
             : <Button variant="outlined" href="/class">Class</Button>}
         </div>
     </nav>
