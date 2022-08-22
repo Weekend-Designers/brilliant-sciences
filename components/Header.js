@@ -51,7 +51,10 @@ export default ({ className }) => {
                 !loggedIn // is_logged_in
             )
             ? <Fragment>
-                <Button variant="contained" href="/account/signup">Log In</Button>
+                <Button variant="contained" href="/account/signup" style={{
+                    marginRight: "1rem",
+                    color: "white",
+                }}>Sign Uo</Button>
                 <Button variant="outlined" href="/account/login">Log In</Button>
               </Fragment>
             : <Button variant="outlined" href="/class">Class</Button>}
