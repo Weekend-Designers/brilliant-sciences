@@ -43,8 +43,6 @@ export default ({ className }) => {
         </ul>
         <div className={classList("flex","flex-1","justify-end","align-center")}>
             {(
-                router.pathname != "/account/login" &&
-                router.pathname != "/account/signup" &&
                 router.pathname != "/account" &&
                 router.pathname != "/class" &&
                 router.pathname != "/class/[id]" &&
