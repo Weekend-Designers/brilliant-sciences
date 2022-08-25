@@ -18,7 +18,7 @@ import {maxWords} from "../../utils"
 import { useSelector } from "react-redux";
 
 export default ({hidden}) => {
-  const description = useSelector(state => state.Course.description)
+  const notes = useSelector(state => state.Course.notes) || []
   const author = useSelector(state => state.Course.author)
   const biography = useSelector(state => state.Course.biography)
   return (
@@ -32,8 +32,8 @@ export default ({hidden}) => {
         flex: 1,
         marginRight: "1rem"
       }}>
-        {description && description.length > 0
-        ? (description.map(desc => (
+        {notes && notes.length > 0
+        ? (notes.map(desc => (
           <ContentCard title={desc.title}>
             {desc.text}
           </ContentCard>

@@ -9,7 +9,7 @@ import {getApp} from "firebase/app"
 // Minor-problems
 // notes && thumbnail && video
 
-export default async (title, subject, tags, notes, comment, price, subtitle, sections, enableReviews, preview, thumbnail, video) => {
+export default async (title, subject, tags, notes, description, price, subtitle, sections, enableReviews, preview, thumbnail, video) => {
   if(title.trim() && subject && price && sections && thumbnail && video){
     console.log("You are In");
     const db = getFirestore(getApp())
@@ -17,7 +17,8 @@ export default async (title, subject, tags, notes, comment, price, subtitle, sec
       assesment: [],
       author: "",
       biography: "",
-      description: "",
+      description: description || "",
+      notes: notes || [],
       enableReviews,
       id: "",
       preview: "",
@@ -26,7 +27,7 @@ export default async (title, subject, tags, notes, comment, price, subtitle, sec
       reviews: [],
       sections,
       subject,
-      tags: [],
+      tags: tags || [],
       thumbnail: "",
       title,
       traffic: 0,

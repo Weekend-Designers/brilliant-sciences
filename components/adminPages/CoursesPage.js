@@ -16,9 +16,11 @@ import InputItem from "../settingItems/InputItem"
 import SelectItem from "../settingItems/SelectItem"
 import ComponentItem from "../settingItems/ComponentItem"
 import ButtonItem from "../settingItems/ButtonItem"
-import {makeIdNotIn, extractIndex} from "../../utils"
+import {makeIdNotIn, extractIndex, makeBiKeyObject, extractKey} from "../../utils"
 import Player from "react-player"
 import coursepusher from "../../helpers/coursepusher"
+import ArrayItem from "../settingItems/ArrayItem"
+import TwoDimArrayItem from "../settingItems/TwoDimArrayItem"
 
 const data1 = [
   [0, "Title", 'Traffic', 'Dop', "", ""],
@@ -182,19 +184,23 @@ const Page2 = ({setNewCoursing}) => {
   const [preview, setPreview] = useState()
   const [thumbnail, setThumbnail] = useState()
   const [subtitle, setSubtitle] = useState()
-  const [tags, setTags] =  useState("")
+  const [tags, setTags] =  useState([])
   const [notes, setNotes] =  useState("")
-  const [comment, setComment] = useState("")
+  const [description, setDescription] = useState("")
   const [price, setPrice] =  useState("0")
   const [enableReviews, setEnableReviews] =  useState(true)
 
   const publish = () => {
     let allflgs = flags.filter((flg, index) => (index != 0))
-    let sections = extractIndex(allflgs, 4) || []
-    console.log(sections);
+    let sectionsStamps = extractIndex(allflgs, 4) || []
+    let sectionsTitles = extractIndex(allflgs, 2) || []
+    console.log(sectionsStamps);
+    console.log(sectionsTitles);
+    let _sections = makeBiKeyObject("title", sectionsTitles, "stamp", sectionsStamps)
+    console.log(_sections);
     // TODO: sanitize all text fields to prevent XXS
     console.log(thumbnail, video);
-    coursepusher(title, subject, tags, notes, comment, price, subtitle, sections, enableReviews, preview, thumbnail, video)
+    coursepusher(title, subject, tags, notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video)
     
     // if(allflgs.length > 0){
     // }else{
@@ -502,13 +508,17 @@ const Page2 = ({setNewCoursing}) => {
             }}/>
           </Button>
         }/>
-        <InputItem text="Tags" inputProps={{
-          value: tags,
-          onChange: (e)=>{
-            setTags(e.target.value)
-          }
-        }}/>
-        <ComponentItem text="Notes" component={
+        <ArrayItem text="Tags" onChange={(value)=>{
+            setTags(extractKey(value, "value"))
+          }}/>
+        <TwoDimArrayItem text="Notes" typeFile onChange={(value)=>{
+            const _title = extractKey(value, "title")
+            const _text = extractKey(value, "text")
+            console.log(value, "text");
+            console.log(makeBiKeyObject("title", _title, "text", _text));
+            setNotes(makeBiKeyObject("title", _title, "text", _text))
+          }}/>
+        {/* <ComponentItem text="Notes" component={
           <Button component="label" variant="outlined">
             <Typography>Choose a notes file</Typography>
             <input type="file" accept=".txt" hidden onChange={async (e) => {
@@ -519,14 +529,14 @@ const Page2 = ({setNewCoursing}) => {
               }
             }}/>
           </Button>
-        }/>
+        }/> */}
         <ComponentItem className="InputItem-textarea" text="Comment" component={
           <TextField multiline maxRows={3} variant="outlined" sx={{
             padding: 0
           }}
-          value={comment}
+          value={description}
           onChange={(e)=>{
-            setComment(e.target.value)
+            setDescription(e.target.value)
           }}/>
         }/>
         {/* <ComponentItem text="Date of publication" component={

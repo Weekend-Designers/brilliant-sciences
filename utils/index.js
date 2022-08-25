@@ -9,8 +9,8 @@ export const classList = (...classes) => {
 
 export const contains = (array, value) => {
     let contained = false;
-    for (let i = 0; i < array.length; i++) {
-        const ele = array[i];
+    for (let index = 0; index < array.length; index++) {
+        const ele = array[index];
         if(ele == value){
             console.log(ele + " == " + value, true);
             contained = true;
@@ -24,7 +24,7 @@ export const makeId = (length = 15) => {
   let output = '';
   let scope = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let scope_size = scope.length;
-  for ( let i = 0; i < length; i++ ) {
+  for ( let index = 0; index < length; index++ ) {
     output += scope.charAt(Math.floor(Math.random() * scope_size));
   }
   return output;
@@ -55,7 +55,7 @@ export const makeIdNotIn = (list = Array(), length = 5) => {
   let scope = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
   let scope_size = scope.length;
   do{
-    for ( let i = 0; i < length; i++ ) {
+    for ( let index = 0; index < length; index++ ) {
       output += scope.charAt(Math.floor(Math.random() * scope_size));
     }
   }while(list.includes(output))
@@ -81,5 +81,27 @@ export const extractKey = (array = Array(), key) => {
       output.push(undefined)
     }
   })
+  return output
+}
+
+export const makeBiKeyObject = (key1, arr1, key2, arr2) => {
+  let output = Array()
+  if(arr1.length == arr2.length){
+    for( let index = 0; index < arr2.length; index++){
+      output.push({
+        [key1]: arr1[index],
+        [key2]: arr2[index],
+      })
+    }
+  }
+  return output
+}
+
+export const maxChars = (text, length = 15) => {
+  let output = text
+  if(text.length > length){
+    output = text.substring(0, length-3)
+    output += "..."
+  }
   return output
 }

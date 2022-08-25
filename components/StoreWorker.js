@@ -33,6 +33,7 @@ export default () => {
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
         dispatch(SET("init user", docSnap.data()))
+        dispatch(SET("init course", docSnap.data().latest_course))
         dispatch(SET("init user", {loggedIn: true}))
       } else {
         // doc.data() will be undefined in this case
