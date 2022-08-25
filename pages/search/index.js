@@ -11,6 +11,7 @@ import {useRouter} from "next/router"
 
 export default () => {
   const [is_searching, set_is_searching] = useState(false)
+  const [ready, set_ready] = useState(false)
   const [courses, setCourses] = useState([])
   const dispatch = useDispatch()
   const router = useRouter()
@@ -19,6 +20,7 @@ export default () => {
     getcourses((data) => {
       setCourses(data)
       console.log(data);
+      set_ready(true)
     })
   }, [])
 
@@ -53,7 +55,7 @@ export default () => {
                 gridTemplateColumns: "repeat(auto-fill, 13rem)",
                 gridGap: "1rem",
                 gridAutoRows: "15rem"
-              }}>{renderSearchCards(courses, dispatch, router)}</Stack>
+              }}>{renderSearchCards(courses, dispatch, router, ready)}</Stack>
             )
             : (
               <Stack style={{
@@ -75,7 +77,7 @@ export default () => {
   )
 }
 
-const renderSearchCards = (courses, dispatch, router) => {
+const renderSearchCards = (courses, dispatch, router, ready) => {
   let output = Array()
   if(courses.length > 0){
     for (let i = 0; i < courses.length; i++) {
@@ -98,7 +100,7 @@ const renderSearchCards = (courses, dispatch, router) => {
     output.push(<SearchCard id={courses.length} name="{{name}}" text="{{short description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
     return output
   }else{
-    return "No data"
+    return (ready ? "No data" : "Loading...")
   }
 }
 
