@@ -95,7 +95,7 @@ const renderSearchCards = (courses, dispatch, router) => {
       )
       // output.push(<SearchCard id={i} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="https://go.wootly.ch/dash?source=web&id=9ed25eb85a1ce6b0c19f6fa1b4e72a5c49f871c0&sig=sasAL3sljgOpCtmjgvJIog&expire=1649711414&ofs=8&usr=40843"/>)
     }
-    output.push(<SearchCard id={courses.length} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
+    output.push(<SearchCard id={courses.length} name="{{name}}" text="{{short description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
     return output
   }else{
     return "No data"
