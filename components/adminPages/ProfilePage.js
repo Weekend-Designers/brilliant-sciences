@@ -53,7 +53,7 @@ export default ({hidden}) => {
         <ContentCard title="Profile">
           <ImageCard style={{maxHeight: "10rem"}} src={image} content={
             [
-              [username],
+              [username + "(Admin)"],
               [email],
               [<Button disabled variant="outlined" style={{height: "2rem"}}>Change Password</Button>],
               [<Button component="label" variant="outlined" style={{height: "2rem"}}>
