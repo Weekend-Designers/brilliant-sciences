@@ -1,5 +1,5 @@
 import {Fragment, useState, useEffect, useRef} from "react"
-import {Stack, IconButton, Typography, Button, CircularProgress, TextField} from "@mui/material"
+import {Stack, IconButton, Typography, Button, CircularProgress, TextField, LinearProgress} from "@mui/material"
 import ContentCard from "../ContentCard"
 import Table from "../Table"
 import NonPropagationButton from "../NonPropagationButton"
@@ -190,7 +190,10 @@ const Page2 = ({setNewCoursing}) => {
   const [price, setPrice] =  useState("0")
   const [enableReviews, setEnableReviews] =  useState(true)
 
+  const [uploaded, setUploaded] =  useState(undefined)
+
   const publish = () => {
+    setUploaded(false)
     let allflgs = flags.filter((flg, index) => (index != 0))
     let sectionsStamps = extractIndex(allflgs, 4) || []
     let sectionsTitles = extractIndex(allflgs, 2) || []
@@ -200,7 +203,9 @@ const Page2 = ({setNewCoursing}) => {
     console.log(_sections);
     // TODO: sanitize all text fields to prevent XXS
     console.log(thumbnail, video);
-    coursepusher(title, subject, tags, notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video)
+    coursepusher(title, subject, tags, notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
+      setUploaded(true)
+    })
     
     // if(allflgs.length > 0){
     // }else{
@@ -554,10 +559,11 @@ const Page2 = ({setNewCoursing}) => {
         <ButtonItem text="allow reviews" checkBox checked={enableReviews} onChecked={(value) => {
           setEnableReviews(value == true)
         }}/>
-        <ButtonItem text spacing={2} buttons={[
+        <ButtonItem text={uploaded == undefined ? "" : (uploaded == false ? "UPLOADING" : (uploaded == true ? "SUCCESS" : ""))} spacing={2} buttons={[
           {
             text: "Publish",
             props: {
+              disabled: (uploaded == true || uploaded == false),
               variant: "contained",
               onClick: ()=>{
                 publish()
@@ -565,6 +571,7 @@ const Page2 = ({setNewCoursing}) => {
             }
           }
         ]}/>
+        {uploaded == false ? <LinearProgress style={{width: "100%"}}/> : ""}
       </Stack>
     </ContentCard>
     </Stack>

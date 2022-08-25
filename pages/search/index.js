@@ -1,5 +1,5 @@
 import {Fragment, useEffect, useState} from "react"
-import {Stack, CircularProgress} from "@mui/material"
+import {Stack, LinearProgress} from "@mui/material"
 import SearchCard from "../../components/SearchCard"
 import SearchItem from "../../components/SearchItem"
 import SearchIcon from '@mui/icons-material/Search'
@@ -50,7 +50,7 @@ export default () => {
                 borderRadius: "4px",
                 // overflow: "hidden",
                 // marginRight: "1rem",
-                display: "grid",
+                display: (ready ? "grid" : "flex"),
                 justifyContent: "center",
                 gridTemplateColumns: "repeat(auto-fill, 13rem)",
                 gridGap: "1rem",
@@ -100,7 +100,7 @@ const renderSearchCards = (courses, dispatch, router, ready) => {
     output.push(<SearchCard id={courses.length} name="{{name}}" text="{{short description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
     return output
   }else{
-    return (ready ? "No data" : "Loading...")
+    return (ready ? "No data" : <LinearProgress style={{width: "100%"}}/>)
   }
 }
 

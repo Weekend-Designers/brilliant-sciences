@@ -1,5 +1,5 @@
 import {Fragment, useState, useRef, useEffect} from "react"
-import {Stack, Typography, CircularProgress} from "@mui/material"
+import {Stack, Typography, CircularProgress, LinearProgress} from "@mui/material"
 import Player from "react-player"
 import {useRouter} from "next/router"
 // import ContentCard from "./ContentCard"
@@ -143,7 +143,7 @@ export default ({id, name, text, image, video, price, onClick}) => {
             backgroundPosition: "center",
           }}/>
         </Stack>
-        <Stack alignItems="flex-end" justifyContent="flex-end" style={{
+        {/* <Stack alignItems="flex-end" justifyContent="flex-end" style={{
           position: "relative"
         }}>
           {
@@ -156,7 +156,14 @@ export default ({id, name, text, image, video, price, onClick}) => {
             )
             : <Fragment/>
           }
-        </Stack>
+        </Stack> */}
+        {
+          hovered && (!preview || buffering) && video
+          ? (
+            <LinearProgress style={{width: "100%"}}/>
+          )
+          : <Fragment/>
+        }
         <Stack style={{
           padding: "0.3rem 0.5rem",
           pointerEvents: "none",

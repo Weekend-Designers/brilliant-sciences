@@ -9,7 +9,9 @@ import {getApp} from "firebase/app"
 // Minor-problems
 // notes && thumbnail && video
 
-export default async (title, subject, tags, notes, description, price, subtitle, sections, enableReviews, preview, thumbnail, video) => {
+export default async (title, subject, tags, notes, description, price, subtitle, sections, enableReviews, preview, thumbnail, video, done = () => {}) => {
+  let neededParts = 1;
+  let doneParts = 0;
   if(title.trim() && subject && price && sections && thumbnail && video){
     console.log("You are In");
     const db = getFirestore(getApp())
@@ -39,11 +41,13 @@ export default async (title, subject, tags, notes, description, price, subtitle,
 
       await updateDoc(doc(db, "Courses", id), {id}).then((result) => {
         // done()
+        doneParts++
       });
 
       const storage = getStorage();
       
       if(thumbnail){
+        neededParts++
         const thumbnailRef = ref(storage, `Courses/${id}/thumbnail`);
         await uploadBytes(thumbnailRef, thumbnail).then( async (snapshot) => {
           console.log("Success!")
@@ -52,11 +56,13 @@ export default async (title, subject, tags, notes, description, price, subtitle,
           // const usersRef = collection(db, "Users")
           await updateDoc(doc(db, "Courses", id), {thumbnail: url}).then((result) => {
             // done()
+            doneParts++
           });
         })
       }
 
       if(preview){
+        neededParts++
         const previewRef = ref(storage, `Courses/${id}/preview`);
         await uploadBytes(previewRef, preview).then( async (snapshot) => {
           console.log("Success!")
@@ -65,11 +71,13 @@ export default async (title, subject, tags, notes, description, price, subtitle,
           // const usersRef = collection(db, "Users")
           await updateDoc(doc(db, "Courses", id), {preview: url}).then((result) => {
             // done()
+            doneParts++
           });
         })
       }
 
       if(video){
+        neededParts++
         const videoRef = ref(storage, `Courses/${id}/video`);
         await uploadBytes(videoRef, video).then( async (snapshot) => {
           console.log("Success!")
@@ -78,8 +86,16 @@ export default async (title, subject, tags, notes, description, price, subtitle,
           // const usersRef = collection(db, "Users")
           await updateDoc(doc(db, "Courses", id), {video: url}).then((result) => {
             // done()
+            doneParts++
           });
         })
+      }
+
+      while(true){
+        if(doneParts == neededParts){
+          done()
+          break
+        }
       }
 
       // if(enableReviews){
