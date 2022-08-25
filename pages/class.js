@@ -1,5 +1,5 @@
 import {Fragment, useEffect, useState} from "react"
-import {Stack, Button} from "@mui/material"
+import {Stack, Button, Typography} from "@mui/material"
 import MenuButton from "../components/MenuButton"
 import Footer from "../components/Footer"
 import VideoPage from "../components/standardPages/VideoPage"
@@ -57,6 +57,7 @@ export default () => {
             : (<Fragment/>)}
           <MenuButton key={4} id={4} onClick={(id) => {setPager(id)}} variant={pager == 4 ? "contained" : ""}>Assesment</MenuButton>
           <Stack spacing={1} style={{display: 'flex', flex: 1, padding: "0 1rem", margin: ".5rem 0", overflow: "auto"}}>
+            <h3 style={{margin: ".5rem 0 1rem 0", textAlign: "center"}}>Sections</h3>
             {(sections && sections.length > 0)
               ? (sections.map(sect => (<Button variant="contained">{sect.title}</Button>)))
               : ("")}
