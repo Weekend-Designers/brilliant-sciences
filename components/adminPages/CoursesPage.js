@@ -530,7 +530,7 @@ const Page2 = ({setNewCoursing}) => {
             }}/>
           </Button>
         }/> */}
-        <ComponentItem className="InputItem-textarea" text="Comment" component={
+        <ComponentItem className="InputItem-textarea" text="Short Description" component={
           <TextField multiline maxRows={3} variant="outlined" sx={{
             padding: 0
           }}
