@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 export default ({ className }) => {
   const router = useRouter();
   const loggedIn = useSelector(state => state.User.loggedIn)
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(window.innerWidth > 1024 ? true : false)
 
   return (
     <nav className={classList(
@@ -40,7 +40,7 @@ export default ({ className }) => {
             <IconButton sx={{color: "white"}} onClick={(e) => {
                 e.stopPropagation()
                 setMenu(!menu)
-            }} clasName={classList("lg:hidden","xsm:flex")}><MenuIcon/></IconButton>
+            }} className={classList("lg:hidden","xsm:flex")}><MenuIcon/></IconButton>
         </div>
         <ul className={classList(
             // "flex",
