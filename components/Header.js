@@ -4,17 +4,18 @@ import {useRouter} from "next/router"
 import {Button, IconButton} from "@mui/material"
 import { useSelector } from "react-redux"
 import MenuIcon from '@mui/icons-material/Menu'
-import {useWindowWidth} from '@react-hook/window-size/throttled'
+import useWindowSize from "../hooks/useWindowSize"
 
 export default ({ className }) => {
   const router = useRouter();
   const loggedIn = useSelector(state => state.User.loggedIn)
   //   ERROR
   const [menu, setMenu] = useState(false)
+  const {width, height} = useWindowSize()
 
   useEffect(() => {
-    setMenu(useWindowWidth() > 1024 ? true : false)
-  }, [useWindowWidth()])
+    setMenu(width > 1024 ? true : false)
+  }, [width])
   
 
   return (
