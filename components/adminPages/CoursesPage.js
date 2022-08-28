@@ -185,7 +185,8 @@ const Page2 = ({setNewCoursing}) => {
   const [thumbnail, setThumbnail] = useState()
   const [subtitle, setSubtitle] = useState()
   const [tags, setTags] =  useState([])
-  const [notes, setNotes] =  useState("")
+  const [links, setLinks] =  useState([])
+  const [notes, setNotes] =  useState([])
   const [description, setDescription] = useState("")
   const [price, setPrice] =  useState("0")
   const [enableReviews, setEnableReviews] =  useState(true)
@@ -203,7 +204,7 @@ const Page2 = ({setNewCoursing}) => {
     console.log(_sections);
     // TODO: sanitize all text fields to prevent XXS
     console.log(thumbnail, video);
-    coursepusher(title, subject, tags, notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
+    coursepusher(title, subject, tags, notes.push({title: "Links", links: links}), description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
       setUploaded(true)
     })
     
@@ -517,12 +518,15 @@ const Page2 = ({setNewCoursing}) => {
             setTags(extractKey(value, "value"))
           }}/>
         <TwoDimArrayItem text="Notes" typeFile onChange={(value)=>{
-            const _title = extractKey(value, "title")
-            const _text = extractKey(value, "text")
-            console.log(value, "text");
-            console.log(makeBiKeyObject("title", _title, "text", _text));
-            setNotes(makeBiKeyObject("title", _title, "text", _text))
-          }}/>
+          const _title = extractKey(value, "title")
+          const _text = extractKey(value, "text")
+          console.log(value, "text");
+          console.log(makeBiKeyObject("title", _title, "text", _text));
+          setNotes(makeBiKeyObject("title", _title, "text", _text))
+        }}/>
+        <ArrayItem text="Links" onChange={(value)=>{
+          setLinks(extractKey(value, "value"))
+        }}/>
         {/* <ComponentItem text="Notes" component={
           <Button component="label" variant="outlined">
             <Typography>Choose a notes file</Typography>
