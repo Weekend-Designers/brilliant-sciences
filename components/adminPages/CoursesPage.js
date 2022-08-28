@@ -204,7 +204,8 @@ const Page2 = ({setNewCoursing}) => {
     console.log(_sections);
     // TODO: sanitize all text fields to prevent XXS
     console.log(thumbnail, video);
-    coursepusher(title, subject, tags, notes.push({title: "Links", links: links}), description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
+    const _notes = [...notes, {title: "Links", links: links}]
+    coursepusher(title, subject, tags, _notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
       setUploaded(true)
     })
     
