@@ -23,6 +23,8 @@ module.exports = {
     padding: {
       "1rm-3rm": "1rem 3rem",
       "3rm": "3rem",
+      "0-3rm": "0 3rem",
+      "0-1rm": "0 1rem",
     },
     screens: {
       'xsm': '360px',
