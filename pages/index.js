@@ -21,10 +21,10 @@ export default function Home() {
         <section className={classList("flex","flex-column","align-center")}>
           <Stack className={classList("flex-1","justify-center","align-center")}>
             <Stack className={classList("position-relative","full-width")}>
-              <img className={classList("position-absolute","flex-1","full-width")} style={{height: "100vh"}}  src="/BS hero-01.svg"/>
+              <div className={classList("position-absolute","flex-1","full-width","sm:bg-center","xsm:bg-ng35-0")} style={{height: "100vh", width: "100vw", backgroundImage: "url('/BS hero-01.svg')", backgroundSize: "cover", backgroundRepeat: "no-repeat"}}></div>
             </Stack>
             <Header/>
-            <Stack direction="row" flex={1} className={classList("full-width")} justifyContent="center" alignItems="center" sx={{padding: "0 7%"}}>
+            <Stack direction="row" flex={1} className={classList("full-width","lg:flex-row","xsm:flex-col")} justifyContent="center" alignItems="center" sx={{padding: "0 7%"}}>
               <div className={classList("flex","flex-1","flex-column","justify-center","align-start","full-width","Hero-section")}>
                 <div>
                   Understand All About Sciences
@@ -71,8 +71,8 @@ export default function Home() {
         </section>
         <section style={{borderWidth: "0", borderBottomStyle: "solid", borderBottomWidth: "1px", borderStyle: "solid"}} className={classList("flex","flex-column","justify-space-evenly","align-center","flex-wrap")}>
           <h3 style={{fontWeight: "bold", fontSize: "2rem"}}>Let Us Know</h3>
-          <div className={classList("flex","flex-1","flex-row")}>
-            <div className={classList("flex","flex-column","justify-start","align-start")} style={{padding: '3rem'}}>
+          <div className={classList("flex","flex-1","flex-row","lg:flex-row","flex-col")}>
+            <div className={classList("flex","flex-column","justify-start","align-start","xsm:p-1rm-3rm","lg:p-3rm")} style={{padding: '3rem'}}>
               <span style={{boxShadow: "0px 6px 22px 0px #1976d2", borderRadius: "4px", overflow: "hidden", padding: "1rem"}}>
                 <b>Email</b>
                 <br/>example@domain.com<br/>
@@ -85,11 +85,11 @@ export default function Home() {
                 <a href="#socials"><b>Our Socials</b></a>
               </span>
             </div>
-            <div className={classList("flex","flex-column","justify-start","align-center","full-width")} style={{padding: '3rem'}}>
-              <Typography style={{margin: 0}}>Write here</Typography>
+            <div className={classList("flex","flex-column","justify-start","align-center","xsm:p-1rm-3rm","lg:p-3rm")} style={{padding: '3rem'}}>
+              <Typography style={{margin: 0, fontSize: "1.3rem"}}>Write here</Typography>
               <TextField sx={{boxShadow: "0px 6px 22px 0px #1976d2", borderRadius: "4px", overflow: "hidden"}} label="email" variant="filled"/>
               <TextField sx={{boxShadow: "0px 6px 22px 0px #1976d2", borderRadius: "4px", overflow: "hidden"}} label="Your words..." variant="filled"/>
-              <Button fullWidth variant="contained">Send</Button>
+              <Button fullWidth variant="contained" type="button">Send</Button>
             </div>
           </div>
         </section>

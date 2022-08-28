@@ -53,7 +53,7 @@ export default ({text, style, onChange, typeFile}) => {
 
   return (
     <Stack style={style} justifyContent="space-between" alignItems="flex-start" direction="row">
-      <span>{text}</span>
+      <span style={{alignSelf: "center"}}>{text}</span>
       <Stack spacing={1} component={"span"} alignItems="flex-start" direction="column" style={{fontSize: ".8rem", fontWeight: "bold"}}>
         <Stack spacing={1} component={"span"} alignItems="center" direction="row">
           <Fragment>

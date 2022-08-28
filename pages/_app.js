@@ -10,6 +10,7 @@ import {useAuthState} from "react-firebase-hooks/auth"
 import {getAuth} from "firebase/auth"
 
 // styles
+import "../styles/tailwind.css"
 import "../styles/library.css"
 import "../styles/index.css"
 import "../styles/header.css"

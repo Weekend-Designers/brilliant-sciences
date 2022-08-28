@@ -209,3 +209,9 @@ body {
 .bounce-around {
     animation: bounce-around 2s infinite;
 }
+
+/* corrections */
+
+button, [type='button'], [type='reset'], [type='submit']{
+    background-color: none;
+}

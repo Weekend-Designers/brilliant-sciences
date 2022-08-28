@@ -1,26 +1,34 @@
-import {Fragment} from "react"
+import {Fragment, useState} from "react"
 import {classList} from "../utils"
 import {useRouter} from "next/router"
-import {Button} from "@mui/material"
+import {Button, IconButton} from "@mui/material"
 import { useSelector } from "react-redux"
+import MenuIcon from '@mui/icons-material/Menu'
 
 export default ({ className }) => {
   const router = useRouter();
   const loggedIn = useSelector(state => state.User.loggedIn)
+  const [menu, setMenu] = useState(false)
 
   return (
     <nav className={classList(
         "Header",
         "flex",
         "full-width",
-        "justify-space-between")}>
+        "justify-space-between",
+        // responsive
+        "lg:flex-row",
+        "lg:justify-between",
+        "xsm:flex-col",
+        "xsm:items-center")}>
         <div className={classList(
             "logo",
             "flex",
             "flex-1",
             "justify-end",
             // "align-center",
-            "flex-column"
+            "w-full",
+            "justify-between"
         )}>
             <img src="/brilliant sciences.svg" style={{height: "2.7rem"}}/>
             {/* <span>
@@ -29,19 +37,34 @@ export default ({ className }) => {
             <span>
                 <b>S</b>ciences
             </span> */}
+            <IconButton sx={{color: "white"}} onClick={(e) => {
+                e.stopPropagation()
+                setMenu(!menu)
+            }} clasName={classList("lg:hidden","xsm:flex")}><MenuIcon/></IconButton>
         </div>
-        <ul className={classList("flex","justify-space-between")} style={{
-            maxWidth: "60%",
-            // width: "18rem",
-
-        }}>
-            {router.pathname != "/" && <li><a href="/">home</a></li>}
-            {router.pathname != "/about" && <li><a href="/about">about</a></li>}
-            {router.pathname != "/class" && <li><a href="/class">class</a></li>}
-            {router.pathname != "/search" && <li><a href="/search">search</a></li>}
-            {router.pathname != "/search" && <li><a href="/account">account</a></li>}
+        <ul className={classList(
+            // "flex",
+            "justify-space-between",
+            // responsive
+            "lg:flex-row",
+            "lg:max-w-3/5",
+            "lg:w-auto",
+            "lg:my-0",
+            "xsm:flex-col",
+            "xsm:max-w-full",
+            "xsm:w-full",
+            "xsm:my-4")}
+            style={{
+                maxWidth: "60%",
+                display: menu ? "flex" : "none",
+            }}>
+            {router.pathname != "/" && <li className={classList("lg:w-7.5rm","xsm:w-full")}><a href="/">home</a></li>}
+            {router.pathname != "/about" && <li className={classList("lg:w-7.5rm","xsm:w-full")}><a href="/about">about</a></li>}
+            {router.pathname != "/class" && <li className={classList("lg:w-7.5rm","xsm:w-full")}><a href="/class">class</a></li>}
+            {router.pathname != "/search" && <li className={classList("lg:w-7.5rm","xsm:w-full")}><a href="/search">search</a></li>}
+            {router.pathname != "/search" && <li className={classList("lg:w-7.5rm","xsm:w-full")}><a href="/account">account</a></li>}
         </ul>
-        <div className={classList("flex","flex-1","justify-end","align-center")}>
+        <div className={classList("flex","flex-1","justify-end","align-center","lg:w-auto","xsm:w-full")}>
             {(
                 router.pathname != "/account" &&
                 router.pathname != "/class" &&
@@ -52,10 +75,11 @@ export default ({ className }) => {
                 <Button variant="contained" href="/account/signup" style={{
                     marginRight: "1rem",
                     color: "white",
-                }}>Sign Up</Button>
-                <Button variant="outlined" href="/account/login">Log In</Button>
+                    display: menu ? "flex" : "none",
+                }} className={classList("lg:flex-grow-0", "xsm:flex-grow")}>Sign Up</Button>
+                <Button variant="outlined" href="/account/login" className={classList("lg:flex-grow-0", "xsm:flex-grow")} style={{display: menu ? "flex" : "none",}}>Log In</Button>
               </Fragment>
-            : <Button variant="outlined" href="/class">Class</Button>}
+            : <Button variant="outlined" href="/class" className={classList("lg:flex-grow-0", "xsm:flex-grow")} style={{display: menu ? "flex" : "none",}}>Class</Button>}
         </div>
     </nav>
   )
