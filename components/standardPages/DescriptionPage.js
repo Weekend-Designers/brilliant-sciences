@@ -36,7 +36,7 @@ export default ({hidden}) => {
         ? (notes.map(desc => {
           if(desc.title == "Links"){
             return (<ContentCard title={desc.title}>
-              {desc.links.map(link => (<a href={link}>{link}</a>))}
+              {desc.links.map(link => (<Fragment><a href={link} target="_blank">{link}</a><br/></Fragment>))}
             </ContentCard>)
           }else{
             return (<ContentCard title={desc.title}>
