@@ -8,7 +8,7 @@ import MenuIcon from '@mui/icons-material/Menu'
 export default ({ className }) => {
   const router = useRouter();
   const loggedIn = useSelector(state => state.User.loggedIn)
-  const [menu, setMenu] = useState(window.innerWidth > 1024 ? true : false)
+  const [menu, setMenu] = useState(innerWidth > 1024 ? true : false)
 
   return (
     <nav className={classList(
