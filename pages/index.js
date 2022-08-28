@@ -21,7 +21,7 @@ export default function Home() {
         <section className={classList("flex","flex-column","align-center")}>
           <Stack className={classList("flex-1","justify-center","align-center")}>
             <Stack className={classList("position-relative","full-width")}>
-              <div className={classList("position-absolute","flex-1","full-width","sm:bg-center","xsm:bg-ng35-0")} style={{height: "100vh", width: "100vw", backgroundImage: "url('/BS hero-01.svg')", backgroundSize: "cover", backgroundRepeat: "no-repeat"}}></div>
+              <div className={classList("position-absolute","flex-1","full-width","sm:bg-center","xsm:bg-ng35-0")} style={{height: "100vh", width: "100%", backgroundImage: "url('/BS hero-01.svg')", backgroundSize: "cover", backgroundRepeat: "no-repeat"}}></div>
             </Stack>
             <Header/>
             <Stack direction="row" flex={1} className={classList("full-width","lg:flex-row","xsm:flex-col")} justifyContent="center" alignItems="center" sx={{padding: "0 7%"}}>
