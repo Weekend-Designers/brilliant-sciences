@@ -33,11 +33,17 @@ export default ({hidden}) => {
         marginRight: "1rem"
       }}>
         {notes && notes.length > 0
-        ? (notes.map(desc => (
-          <ContentCard title={desc.title}>
-            {desc.text}
-          </ContentCard>
-        )))
+        ? (notes.map(desc => {
+          if(desc.title == "Links"){
+            return (<ContentCard title={desc.title}>
+              {desc.links.map(link => (<a href={link}>{link}</a>))}
+            </ContentCard>)
+          }else{
+            return (<ContentCard title={desc.title}>
+              {desc.text}
+            </ContentCard>)
+          }
+        }))
         : (
           <ContentCard>
             Sorry, No Description Available
