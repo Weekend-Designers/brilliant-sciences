@@ -21,6 +21,7 @@ import Player from "react-player"
 import coursepusher from "../../helpers/coursepusher"
 import ArrayItem from "../settingItems/ArrayItem"
 import TwoDimArrayItem from "../settingItems/TwoDimArrayItem"
+import LabeledArray from "../settingItems/LabeledArray"
 
 const data1 = [
   [0, "Title", 'Traffic', 'Dop', "", ""],
@@ -187,6 +188,7 @@ const Page2 = ({setNewCoursing}) => {
   const [tags, setTags] =  useState([])
   const [links, setLinks] =  useState([])
   const [notes, setNotes] =  useState([])
+  const [assesment, setAssesment] =  useState([])
   const [description, setDescription] = useState("")
   const [price, setPrice] =  useState("0")
   const [enableReviews, setEnableReviews] =  useState(true)
@@ -205,7 +207,7 @@ const Page2 = ({setNewCoursing}) => {
     // TODO: sanitize all text fields to prevent XXS
     console.log(thumbnail, video);
     const _notes = [...notes, {title: "Links", links: links}]
-    coursepusher(title, subject, tags, _notes, description, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
+    coursepusher(title, subject, tags, _notes, description, assesment, price, subtitle, _sections, enableReviews, preview, thumbnail, video, () => {
       setUploaded(true)
     })
     
@@ -470,6 +472,11 @@ const Page2 = ({setNewCoursing}) => {
           </Button>
         </Stack>
       </Stack>
+    </ContentCard>
+    <ContentCard title="New Course Assesment">
+      <LabeledArray placeholder1="Type A Question" placeholder2="Add a New Option" onChange={(data) => {
+        setAssesment(data)
+      }}/>
     </ContentCard>
     <ContentCard title="New Course Info">
       <Stack spacing={1}>

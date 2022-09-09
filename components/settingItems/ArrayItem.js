@@ -4,7 +4,7 @@ import RemoveIcon from '@mui/icons-material/Remove'
 import { useState, Fragment, useEffect } from "react"
 import { makeId, maxChars } from "../../utils"
 
-export default ({text, style, onChange, typeFile}) => {
+export default ({text, style, onChange, typeFile, placeholder}) => {
   const [_value, set_value] = useState("")
   const [_file, set_file] = useState()
   const [values, setValues] = useState([])
@@ -68,7 +68,7 @@ export default ({text, style, onChange, typeFile}) => {
               </Button>
             )
             : (
-              <TextField className="InputItem-input" value={_value} onChange={(e) => {
+              <TextField className="InputItem-input" placeholder={placeholder} value={_value} onChange={(e) => {
                 set_value(e.target.value)
               }}></TextField>
             )}

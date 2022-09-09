@@ -9,14 +9,14 @@ import {getApp} from "firebase/app"
 // Minor-problems
 // notes && thumbnail && video
 
-export default async (title, subject, tags, notes, description, price, subtitle, sections, enableReviews, preview, thumbnail, video, done = () => {}) => {
+export default async (title, subject, tags, notes, description, assesment, price, subtitle, sections, enableReviews, preview, thumbnail, video, done = () => {}) => {
   let neededParts = 1;
   let doneParts = 0;
   if(title.trim() && subject && price && sections && thumbnail && video){
     console.log("You are In");
     const db = getFirestore(getApp())
     const courseRef = await addDoc(collection(db, "Courses"), {
-      assesment: [],
+      assesment,
       author: "",
       biography: "",
       description: description || "",

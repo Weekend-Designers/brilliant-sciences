@@ -32,7 +32,7 @@ export default ({hidden}) => {
         flex: 1,
         marginRight: "1rem"
       }}>
-        {question && (assesment.length > 0)
+        {(assesment.length > 0)
         ? (
           <Fragment>
             {/* spacing i0 */}
