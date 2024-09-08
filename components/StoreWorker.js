@@ -14,12 +14,12 @@ export default () => {
   const loggedIn = useSelector(state => state.User.loggedIn)
   const router  = useRouter();
 
-  useEffect(async () => {
+  useEffect(() => {
     console.log("Loading: ", loading, "|", "Current user", user?.reloadUserInfo)
     if (user) {
       const db = getFirestore(getApp())
       const docRef = doc(db, "Users", user.reloadUserInfo.localId)
-      const docSnap = await getDoc(docRef)
+      const docSnap = getDoc(docRef)
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
         dispatch(SET("init user", docSnap.data()))
@@ -36,11 +36,11 @@ export default () => {
         if(router.pathname == "/account/signup"){
           const storage = getStorage();
           const profileRef = ref(storage, `Profiles/${user.reloadUserInfo.localId}.jpg`);
-          await uploadBytes(profileRef, user.reloadUserInfo.photoUrl).then((snapshot) => {});
+          uploadBytes(profileRef, user.reloadUserInfo.photoUrl).then((snapshot) => { });
           
-          const photo = await getDownloadURL(profileRef)
+          const photo = getDownloadURL(profileRef)
           const usersRef = collection(db, "Users")
-          await setDoc(doc(usersRef, user.reloadUserInfo.localId), {
+          setDoc(doc(usersRef, user.reloadUserInfo.localId), {
             email: user.reloadUserInfo.email,
             id: user.reloadUserInfo.localId,
             is_admin: false,
@@ -53,7 +53,7 @@ export default () => {
             username: user.reloadUserInfo.displayName
           });
           const _docRef = doc(db, "Users", user.reloadUserInfo.localId)
-          const _docSnap = await getDoc(_docRef)
+          const _docSnap = getDoc(_docRef)
           if (_docSnap.exists()) {
             console.log("Document data:", _docSnap.data());
             dispatch(SET("init user", _docSnap.data()))
