@@ -4,13 +4,13 @@ import "firebase/auth"
 import "firebase/firestore"
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBEzjI5Kx0EokpKKe0N4XJhg7KVL2R19m4",
-  authDomain: "brilliant-sciences.firebaseapp.com",
-  projectId: "brilliant-sciences",
-  storageBucket: "brilliant-sciences.appspot.com",
-  messagingSenderId: "811825813849",
-  appId: "1:811825813849:web:f2ac7de4c861ee7cd15448",
-  measurementId: "G-L87TNW9W4B"
+  apiKey: process.env.FIREBABSE_apiKey,
+  authDomain: process.env.FIREBABSE_authDomain,
+  projectId: process.env.FIREBABSE_projectId,
+  storageBucket: process.env.FIREBABSE_storageBucket,
+  messagingSenderId: process.env.FIREBABSE_messagingSenderId,
+  appId: process.env.FIREBABSE_appId,
+  measurementId: process.env.FIREBABSE_measurementId,
 }
 
 // // Initialize Firebase

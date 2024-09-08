@@ -2,8 +2,7 @@ import {useEffect, useState} from "react"
 import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
 import Stack  from '@mui/material/Stack';
-import {Button, TextField, IconButton}  from '@mui/material';
-import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
+import { Button, TextField, IconButton } from '@mui/material';
 import firebase from "firebase/app"
 import {GoogleLogin, EmailPasswordLogin, GoogleLogout} from "../../helpers/login"
 import {useSelector} from "react-redux"
@@ -80,8 +79,7 @@ export default () => {
             setPasswordHelper("")
             setPasswordError(false)
           }
-        }}/>
-        {/* <StyledFirebaseAuth uiConfig={loginConfig} firebaseAuth={app.auth()}/> */}
+          }} />
         <Stack direction="row" justify="center" alignItems="center" spacing={1}>
           <Button type="submit" style={{display: 'flex', flex: 1}} variant="outlined" onClick={(e) => {
               e.preventDefault()
