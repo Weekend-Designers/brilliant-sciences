@@ -1,18 +1,10 @@
-import {Fragment, useState, useEffect} from "react"
-import {Stack, Slider, Typography, Button, CircularProgress, MenuItem} from "@mui/material"
-import {
-  PlayArrowRounded as PlayIcon,
-  VolumeUpRounded as VolumeIcon,
-  VolumeOffRounded as MuteIcon,
-  FullscreenRounded as FullscreenIcon,
-  FullscreenExitRounded as ExitFullscreenIcon,
-} from '@mui/icons-material';
+import { useState } from "react"
+import { Stack, Typography, Button, CircularProgress } from "@mui/material"
 import ContentCard from "../ContentCard"
 import ImageCard from "../ImageCard"
 import SelectItem from "../settingItems/SelectItem"
 import {useSelector} from "react-redux"
 import imagepusher from "../../helpers/imagepusher";
-import { getStorage } from "firebase/storage";
 
 export default ({hidden}) => {
   const username = useSelector(state => state.User.username) + " "
@@ -25,16 +17,10 @@ export default ({hidden}) => {
   const [uploadingImage, setUploadingImage] = useState(false)
   const [image, setImage] = useState(photo || "/apparatus.jpg")
   const [theme, setTheme] = useState(_theme)
-  const [themeName, setThemeName] = useState("")
   const [preferredCourse, setPreferredCourse] = useState(preferred_course)
-  const [preferredCourseName, setPreferredCourseName] = useState("")
-  const loggedIn = useSelector(state => state.User.loggedIn)
-
-  useEffect(() => {
-    if(loggedIn){
-      // setImage(photo)
-    }
-  }, [photo])
+  const [themeName, setThemeName] = useState("") // NOSONAR
+  const [preferredCourseName, setPreferredCourseName] = useState("") // NOSONAR
+  const loggedIn = useSelector(state => state.User.loggedIn) // NOSONAR
 
   const handleImageFile = (e) => {
     if(e.target.files[0]){
@@ -66,15 +52,14 @@ export default ({hidden}) => {
             [
               [username],
               [email],
-              [<Button disabled variant="outlined" style={{height: "2rem"}}>Change Password</Button>],
-              [<Button component="label" variant="outlined" style={{height: "2rem"}}>
+              [<Button key="change_password" disabled variant="outlined" style={{ height: "2rem" }}>Change Password</Button>],
+              [<Button key="change_profile_picture" component="label" variant="outlined" style={{ height: "2rem" }}>
                 <Stack direction="row" spacing={1} alignItems="center">
                   <Typography style={{fontSize: ".875rem"}}>Change Profile Picture</Typography>
                   <input type="file" accept=".jpg, .png" hidden onChange={handleImageFile}/>
                   {
                     uploadingImage
-                    ? <CircularProgress size={18}/>
-                    : <Fragment/>
+                    && <CircularProgress size={18} />
                   }
                 </Stack>
               </Button>]

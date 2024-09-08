@@ -1,5 +1,4 @@
-import {initializeApp, getApps, getApp} from "firebase/app"
-// import {FirebaseApp as auth} from "firebase/app"
+import { initializeApp, getApps, getApp } from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
 
@@ -13,14 +12,12 @@ const firebaseConfig = {
   measurementId: process.env.FIREBABSE_measurementId,
 }
 
-// // Initialize Firebase
-// export const app = (!getApps().length) ? initializeApp(firebaseConfig) : getApp()
+// Initialize Firebase
 export const app = () => {
   if(!getApps().length){
     return initializeApp(firebaseConfig)
+  } else {
+    getApp()
   }
   console.log("There")
 }
-
-// console.log(firebase.auth) // Undefined
-// console.log(firebase.default.auth) // Function

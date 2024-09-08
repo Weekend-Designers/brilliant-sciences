@@ -5,8 +5,8 @@ import { useState, Fragment, useEffect } from "react"
 import { makeId, maxChars } from "../../utils"
 
 export default ({text, style, onChange, typeFile, placeholder}) => {
-  const [_value, set_value] = useState("")
-  const [_file, set_file] = useState()
+  const [internal_value, setInternal_value] = useState("")
+  const [internal_file, setInternal_file] = useState()
   const [values, setValues] = useState([])
   const addValue = (value) => {
     if(value){
@@ -15,7 +15,7 @@ export default ({text, style, onChange, typeFile, placeholder}) => {
           ...values,
           {
             id: makeId(5),
-            value: value.name || "unonymous",
+            value: value.name || "anonymous",
             file: value,
           }
         ])
@@ -54,22 +54,21 @@ export default ({text, style, onChange, typeFile, placeholder}) => {
             ? (
               <Button component="label" variant="outlined">
                 <Typography>
-                  {_file
-                  ? (maxChars(_file.name))
+                    {internal_file
+                      ? (maxChars(internal_file.name))
                   : "Choose a file"}
                 </Typography>
                 <input type="file" accept=".txt" hidden onChange={(e) => {
                   if(e.target.files[0] && e.target.files[0].type == "text/plain"){
-                    set_file(e.target.files[0])
+                    setInternal_file(e.target.files[0])
                     e.target.files = undefined
-                    // type: "text/plain"
                   }
                 }}/>
               </Button>
             )
             : (
-              <TextField className="InputItem-input" placeholder={placeholder} value={_value} onChange={(e) => {
-                set_value(e.target.value)
+                <TextField className="InputItem-input" placeholder={placeholder} value={internal_value} onChange={(e) => {
+                  setInternal_value(e.target.value)
               }}></TextField>
             )}
           </Fragment>
@@ -79,16 +78,14 @@ export default ({text, style, onChange, typeFile, placeholder}) => {
             minWidth: 0,
           }} onClick={() => {
             if(typeFile){
-              if(_file){
-                console.log(_file);
-                addValue(_file)
-                set_file(null)
+              if (internal_file) {
+                console.log(internal_file);
+                addValue(internal_file)
+                setInternal_file(null)
               }
-            }else{
-              if(_value){
-                addValue(_value)
-                set_value("")
-              }
+            } else if (internal_value) {
+              addValue(internal_value)
+              setInternal_value("")
             }
           }}>
             <AddIcon/>
@@ -104,9 +101,9 @@ export default ({text, style, onChange, typeFile, placeholder}) => {
 
 const renderItems = (values, removeValue) => {
   const output = Array()
-  for (let index = 0; index < values.length; index++) {
-    const val = values[index].value
-    const id = values[index].id
+  for (const element of values) {
+    const val = element.value
+    const id = element.id
     output.push(
       <Stack spacing={1} component={"span"} alignItems="center" direction="row" style={{width: "100%"}}>
         <Button variant="outlined" style={{

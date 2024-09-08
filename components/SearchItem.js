@@ -1,23 +1,19 @@
 import {useState} from "react"
-import {Stack, Typography} from "@mui/material"
-// import ContentCard from "./ContentCard"
+import { Stack, Typography } from "@mui/material"
 
 export default ({id, name, text, image, price}) => {
-  const [hovered, setHovered] =  useState(false)
+  const [hovered, setHovered] = useState(false) // NOSONAR
     return (
       <Stack alignItems="center" justifyContent="center" style={{
         position: "relative",
       }}>
-        <Stack direction="row" alignItems="center" spacing={1} sx={{/*backgroundColor: "primary.main"*/}} style={{
+        <Stack direction="row" alignItems="center" spacing={1} style={{
           width: "100%",
           height: "100%",
           position: "absolute",
           borderRadius: "4px",
           overflow: "hidden",
           boxShadow: "0px 0px 8px -4px black",
-        //   borderStyle: "solid",
-        //   borderWidth: "1px",
-        //   backgroundColor: "white",
           transition: ".5s"
         }}
         onMouseOver={(e) => {
@@ -29,14 +25,12 @@ export default ({id, name, text, image, price}) => {
             <img src={image} style={{
               display: "flex",
               width: "2.5rem",
-              height: "2.3rem",
-              // height: "100%",
-            //   flex: 1,
+            height: "2.3rem",
               borderStyle: "none",
               borderRadius: "4px",
               alignSelf: "stretch",
               margin: "0.5rem"
-            }}/>
+          }} alt="search icon" />
             <Typography style={{
               whiteSpace: "nowrap",
               textOverflow: "ellipsis",

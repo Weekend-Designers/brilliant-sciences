@@ -5,9 +5,9 @@ import { useState, Fragment, useEffect } from "react"
 import { makeId, maxChars } from "../../utils"
 
 export default ({text, style, onChange, typeFile}) => {
-  const [_value, set_value] = useState("")
-  const [_title, set_title] = useState("")
-  const [_file, set_file] = useState()
+  const [internal_value, setInternal_value] = useState("")
+  const [internal_title, setInternal_title] = useState("")
+  const [internal_file, setInternal_file] = useState()
   const [values, setValues] = useState([])
   const addValue = async (value) => {
     if(value){
@@ -22,7 +22,7 @@ export default ({text, style, onChange, typeFile}) => {
             value: value.name,
             file: value,
             text: text,
-            title: _title,
+            title: internal_title,
           }
         ])
       }else{
@@ -31,7 +31,7 @@ export default ({text, style, onChange, typeFile}) => {
           {
             id: makeId(5),
             value,
-            title: _title,
+            title: internal_title,
           }
         ])
       }
@@ -60,20 +60,19 @@ export default ({text, style, onChange, typeFile}) => {
             {typeFile
             ? (
               <Fragment>
-                <TextField className="InputItem-input" value={_title} placeholder="Note Title" onChange={(e) => {
-                    set_title(e.target.value)
+                  <TextField className="InputItem-input" value={internal_title} placeholder="Note Title" onChange={(e) => {
+                    setInternal_title(e.target.value)
                 }}></TextField>
                 <Button component="label" variant="outlined">
                     <Typography>
-                    {_file
-                    ? (maxChars(_file.name))
+                      {internal_file
+                        ? (maxChars(internal_file.name))
                     : "Choose a file"}
                     </Typography>
                     <input type="file" accept=".txt" hidden onChange={(e) => {
                     if(e.target.files[0] && e.target.files[0].type == "text/plain"){
-                        set_file(e.target.files[0])
-                        e.target.files = undefined
-                        // type: "text/plain"
+                      setInternal_file(e.target.files[0])
+                      e.target.files = undefined
                     }
                     }}/>
                 </Button>
@@ -81,11 +80,11 @@ export default ({text, style, onChange, typeFile}) => {
             )
             : (
               <Fragment>
-                <TextField className="InputItem-input" value={_title} onChange={(e) => {
-                    set_title(e.target.value)
+                  <TextField className="InputItem-input" value={internal_title} onChange={(e) => {
+                    setInternal_title(e.target.value)
                 }}></TextField>
-                <TextField className="InputItem-input" value={_value} onChange={(e) => {
-                    set_value(e.target.value)
+                  <TextField className="InputItem-input" value={internal_value} onChange={(e) => {
+                    setInternal_value(e.target.value)
                 }}></TextField>
               </Fragment>
             )}
@@ -96,18 +95,16 @@ export default ({text, style, onChange, typeFile}) => {
             minWidth: 0,
           }} onClick={() => {
             if(typeFile){
-              if(_file && _title){
-                console.log(_file);
-                addValue(_file)
-                set_file(null)
-                set_title("")
+              if (internal_file && internal_title) {
+                console.log(internal_file);
+                addValue(internal_file)
+                setInternal_file(null)
+                setInternal_title("")
               }
-            }else{
-              if(_value && _title){
-                addValue(_value)
-                set_value("")
-                set_title("")
-              }
+            } else if (internal_value && internal_title) {
+              addValue(internal_value)
+              setInternal_value("")
+              setInternal_title("")
             }
           }}>
             <AddIcon/>
@@ -123,10 +120,10 @@ export default ({text, style, onChange, typeFile}) => {
 
 const renderItems = (values, removeValue) => {
   const output = Array()
-  for (let index = 0; index < values.length; index++) {
-    const title = values[index].title
-    const val = values[index].value
-    const id = values[index].id
+  for (const element of values) {
+    const title = element.title
+    const val = element.value
+    const id = element.id
     output.push(
       <Stack spacing={1} component={"span"} alignItems="center" direction="row" style={{width: "100%"}}>
         <Button variant="outlined" style={{

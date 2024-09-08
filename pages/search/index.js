@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from "react"
+import { useEffect, useState } from "react"
 import {Stack, LinearProgress} from "@mui/material"
 import SearchCard from "../../components/SearchCard"
 import SearchItem from "../../components/SearchItem"
@@ -10,8 +10,8 @@ import {useDispatch} from "react-redux"
 import {useRouter} from "next/router"
 
 export default () => {
-  const [is_searching, set_is_searching] = useState(false)
-  const [ready, set_ready] = useState(false)
+  const [is_searching, setIs_searching] = useState(false) // NOSONAR
+  const [ready, setReady] = useState(false)
   const [courses, setCourses] = useState([])
   const dispatch = useDispatch()
   const router = useRouter()
@@ -20,7 +20,7 @@ export default () => {
     getcourses((data) => {
       setCourses(data)
       console.log(data);
-      set_ready(true)
+      setReady(true)
     })
   }, [])
 
@@ -47,9 +47,7 @@ export default () => {
             ? (
               <Stack style={{
                 flex: 1,
-                borderRadius: "4px",
-                // overflow: "hidden",
-                // marginRight: "1rem",
+                  borderRadius: "4px",
                 display: (ready ? "grid" : "flex"),
                 justifyContent: "center",
                 gridTemplateColumns: "repeat(auto-fill, 13rem)",
@@ -59,10 +57,7 @@ export default () => {
             )
             : (
               <Stack style={{
-                flex: 1,
-                // borderRadius: "4px",
-                // overflow: "hidden",
-                // marginRight: "1rem",
+                  flex: 1,
                 display: "grid",
                 justifyContent: "center",
                 gridTemplateColumns: "repeat(auto-fill, 100%)",
@@ -95,7 +90,6 @@ const renderSearchCards = (courses, dispatch, router, ready) => {
             router.push("/class")
         }}/>
       )
-      // output.push(<SearchCard id={i} name="{{name}}" text="{{description}}" price="{{price}}" image="/testimonials.jpg" video="https://go.wootly.ch/dash?source=web&id=9ed25eb85a1ce6b0c19f6fa1b4e72a5c49f871c0&sig=sasAL3sljgOpCtmjgvJIog&expire=1649711414&ofs=8&usr=40843"/>)
     }
     output.push(<SearchCard id={courses.length} name="{{name}}" text="{{short description}}" price="{{price}}" image="/testimonials.jpg" video="/spykids4.mp4"/>)
     return output

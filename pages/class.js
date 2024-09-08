@@ -1,5 +1,5 @@
-import {Fragment, useEffect, useState} from "react"
-import {Stack, Button, Typography} from "@mui/material"
+import { useEffect, useState } from "react"
+import { Stack, Button } from "@mui/material"
 import MenuButton from "../components/MenuButton"
 import Footer from "../components/Footer"
 import VideoPage from "../components/standardPages/VideoPage"
@@ -11,27 +11,27 @@ import updatelatestcourse from "../helpers/updatelatestcourse"
 export default () => {
   const router = useRouter()
   const [pager, setPager] = useState(1)
+  const [updatedlatestcourse, setUpdatedlatestcourse] = useState(false)
   const video = useSelector(state => state.Course.video)
   const title = useSelector(state => state.Course.title)
   const enableReviews = useSelector(state => state.Course.enableReviews)
-  const [updatedlatestcourse, set_updatedlatestcourse] = useState(false)
   const this_course = useSelector(state => state.Course)
   const userId = useSelector(state => state.User.id)
   const sections = useSelector(state => state.Course.sections) || []
 
   useEffect(() => {
-    if(!video || !title){
+    if (!video || !title) {
       router.push("/search")
     }
   }, [video, title])
 
   useEffect(() => {
-    if(this_course){
+    if (this_course) {
       console.log(this_course);
-      if(this_course.id && !updatedlatestcourse){
+      if (this_course.id && !updatedlatestcourse) {
         updatelatestcourse(this_course, userId, () => {
           console.log("good");
-          set_updatedlatestcourse(true)
+          setUpdatedlatestcourse(true)
         })
       }
     }
@@ -47,36 +47,31 @@ export default () => {
       <Stack style={{
         padding: "1rem",
         minWidth: "25%",
-        // background: "red"
-        }}>
-          <h3 style={{margin: ".5rem 0 1rem 0", textAlign: "center"}}>Class</h3>
-          <MenuButton key={1} id={1} onClick={(id) => {setPager(id)}} variant={pager == 1 ? "contained" : ""} helper="watching: {{section name}}">Video</MenuButton>
-          <MenuButton key={2} id={2} onClick={(id) => {setPager(id)}} variant={pager == 2 ? "contained" : ""}>Description</MenuButton>
-          {enableReviews
-            ? (<MenuButton key={3} id={3} onClick={(id) => {setPager(id)}} variant={pager == 3 ? "contained" : ""}>Reviews</MenuButton>)
-            : (<Fragment/>)}
-          <MenuButton key={4} id={4} onClick={(id) => {setPager(id)}} variant={pager == 4 ? "contained" : ""}>Assesment</MenuButton>
-          <Stack spacing={1} style={{display: 'flex', flex: 1, padding: "0 1rem", margin: ".5rem 0", overflow: "auto"}}>
-            <h3 style={{margin: ".5rem 0 1rem 0", textAlign: "center"}}>Sections</h3>
-            {(sections && sections.length > 0)
-              ? (sections.map(sect => (<Button variant="contained">{sect.title}</Button>)))
-              : ("")}
-          </Stack>
-          <Button variant="outlined" href="/account">Exit Class</Button>
+      }}>
+        <h3 style={{ margin: ".5rem 0 1rem 0", textAlign: "center" }}>Class</h3>
+        <MenuButton key={1} id={1} onClick={(id) => { setPager(id) }} variant={pager == 1 ? "contained" : ""} helper="watching: {{section name}}">Video</MenuButton>
+        <MenuButton key={2} id={2} onClick={(id) => { setPager(id) }} variant={pager == 2 ? "contained" : ""}>Description</MenuButton>
+        {enableReviews
+          && (<MenuButton key={3} id={3} onClick={(id) => { setPager(id) }} variant={pager == 3 ? "contained" : ""}>Reviews</MenuButton>)}
+        <MenuButton key={4} id={4} onClick={(id) => { setPager(id) }} variant={pager == 4 ? "contained" : ""}>Assesment</MenuButton>
+        <Stack spacing={1} style={{ display: 'flex', flex: 1, padding: "0 1rem", margin: ".5rem 0", overflow: "auto" }}>
+          <h3 style={{ margin: ".5rem 0 1rem 0", textAlign: "center" }}>Sections</h3>
+          {(sections && sections.length > 0)
+            ? (sections.map(sect => (<Button key={`section_${sect.title}`} variant="contained">{sect.title}</Button>)))
+            : ("")}
+        </Stack>
+        <Button variant="outlined" href="/account">Exit Class</Button>
       </Stack>
       <Stack style={{
-      // padding: "1rem",
-      flex: 1,
-      flexDirection: "column",
-      overflow: "overlay",
-      minHeight: "100vh",
-      // background: "green"
+        flex: 1,
+        flexDirection: "column",
+        overflow: "overlay",
+        minHeight: "100vh",
       }}>
-        {/* {renderPage(pager)} */}
-        <VideoPage hidden={pager == 1}/>
-        <DescriptionPage hidden={pager == 2}/>
-        <AssesmentPage hidden={pager == 4}/>
-        <Footer style={{backgroundColor: "white", margin: "2rem 0"}}/>
+        <VideoPage hidden={pager == 1} />
+        <DescriptionPage hidden={pager == 2} />
+        <AssesmentPage hidden={pager == 4} />
+        <Footer style={{ backgroundColor: "white", margin: "2rem 0" }} />
       </Stack>
     </div>
   )
@@ -85,12 +80,12 @@ export default () => {
 const renderPage = (state) => {
   switch (state) {
     case 1:
-      return <VideoPage/>
+      return <VideoPage />
     case 2:
-      return <DescriptionPage/>
+      return <DescriptionPage />
     case 4:
-      return <AssesmentPage/>
+      return <AssesmentPage />
     default:
-      return <Fragment/>
+      return
   }
 }

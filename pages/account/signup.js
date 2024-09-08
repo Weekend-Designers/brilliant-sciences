@@ -3,7 +3,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import Typography from '@mui/material/Typography';
 import Stack  from '@mui/material/Stack';
 import {Button, TextField}  from '@mui/material';
-import {GoogleLogin, EmailPasswordLogin, GoogleLogout} from "../../helpers/login"
+import { GoogleLogin, GoogleLogout } from "../../helpers/login"
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
 import { EmailPasswordSignup } from '../../helpers/signup';
@@ -30,7 +30,6 @@ export default () => {
   const [confPasswordError, setConfPasswordError] = useState(false)
   
   useEffect(() => {
-    // console.log(`/account/${id}`)
     if(loggedIn){
       router.push("/account/login")
     }
@@ -39,7 +38,6 @@ export default () => {
   return (
     <Stack style={{width: "70%", margin: "auto"}} component={"span"}>
       <Stack direction="row" style={{
-        // backgroundColor: "red",
         margin: "5% 0",
         borderStyle: "solid",
         borderWidth: "2px",
@@ -52,7 +50,6 @@ export default () => {
         <Typography>Sign Up</Typography>
       </Stack>
       <Stack component={"span"} style={{
-        // backgroundColor: "red"
         }}>
         <TextField required color={usernameError ? "error" : "primary"} type="text" label="Enter a username" helperText={usernameHelper} style={{margin: "2% 0"}} value={username} onChange={(e) => {
           setUsername(e.target.value)
@@ -132,11 +129,7 @@ export default () => {
               if(username.trim() && email.trim() && password && confPassword == password) {
                 EmailPasswordSignup(username, email, password, (userInfo) => {
                   if(userInfo){
-                    const loggedIn = true;
-                    const id = userInfo.localId
-                    const email = userInfo.email
-                    const username = userInfo.displayName
-                    const photo = userInfo.photoUrl
+                    // TODO implement found user logic
                     dispatch(SET("init user", {loggedIn: null}))
                     dispatch(SET("init user", userInfo))
                   }
@@ -179,19 +172,15 @@ export default () => {
             GoogleLogout()
             GoogleLogin((userInfo) => {
               if(userInfo){
-                const loggedIn = true;
-                const id = userInfo.localId
-                const email = userInfo.email
-                const username = userInfo.displayName
-                const photo = userInfo.photoUrl
+                // TODO implement found user logic
               }
             })
           }}>
-            <img src="/GoogleLogo.svg"/>
+            <img src="/GoogleLogo.svg" alt="Google logo" />
           </Button>
         </Stack>
         <Stack style={{flexDirection: "row", justifyContent: "space-between", margin: "2% 0"}}>
-            <a></a>
+          <a></a> {/* NOSONAR */}
             <a href="/account/login">I already have an account, Log In instead!</a>
         </Stack>
       </Stack>

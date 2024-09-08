@@ -1,12 +1,9 @@
-// import {Fragment} from 'react'
 import {Stack, Button} from "@mui/material"
 
-export default ({data, noHeader, color, style, className, hasHelper, attributes, onClick}) => {
-  const passedData = data
+export default ({ data, noHeader, color, style, className, hasHelper, attributes, onClick }) => {
   const theData = data.map((row)=>(
     row.filter((cell, index)=>(index != row.length-1))
   ))
-//   console.log("theData", theData)
   const rowClick = (index) => {
     if(index !== 0) {
       try {onClick(onClick(index))} catch (e) {}
@@ -32,17 +29,14 @@ const renderData = (data, noHeader, color, hasHelper, rowClick) => {
             temp.push(<Stack key={k} spacing={0.5} sx={{borderColor: "primary.main"}} style={{
                 width: (
                     hasHelper
-                    ? (k == cols) ? "auto" : `${(Math.trunc((1/cols)*150))}%`
+                  ? (k == cols) ? "auto" : `${(Math.trunc((1 / cols) * 150))}%` // NOSONAR
                     : `${(Math.trunc((1/cols)*100))}%`
                 ),
-                color: "inherit",
-                // borderBottomWidth: i == rows - 1 ? 0 : "1.5px",
-                // paddingBottom: i == rows - 1 ? 0 : ".5rem"
+              color: "inherit",
             }}>{data[i][k]}</Stack>)
         }
         if(i == 0 && !noHeader){
-            output.push(<Stack key={i} sx={{color: (color != null && color != undefined) ? color : "primary.main", borderColor: "primary.main"}} direction="row" style={{
-                // justifyContent: "space-between",
+          output.push(<Stack key={i} sx={{ color: (color != null && color != undefined) ? color : "primary.main", borderColor: "primary.main" }} direction="row" style={{
                 justifyContent: "flex-start",
                 textAlign: "start",
                 alignItems: "center",
@@ -54,8 +48,7 @@ const renderData = (data, noHeader, color, hasHelper, rowClick) => {
                 marginBottom:  noHeader ? 0 : ".7rem"
             }}>{temp}</Stack>)
         }else{
-            output.push(<Button key={i} variant="standard" onClick={(e) => {e.stopPropagation();rowClick(i)}} sx={{color: noHeader ? "primary.main" : ""}} direction="row" style={{
-                // justifyContent: "space-between",
+          output.push(<Button key={i} variant="standard" onClick={(e) => { e.stopPropagation(); rowClick(i) }} sx={{ color: noHeader ? "primary.main" : "" }} direction="row" style={{
                 justifyContent: "flex-start",
                 textAlign: "start",
                 alignItems: "center",

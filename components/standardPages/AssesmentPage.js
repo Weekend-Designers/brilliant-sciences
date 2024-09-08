@@ -1,19 +1,6 @@
 import {Fragment, useState} from "react"
-import {Stack, Slider, Button, RadioGroup, FormControlLabel, Radio} from "@mui/material"
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import {
-  PlayArrowRounded as PlayIcon,
-  VolumeUpRounded as VolumeIcon,
-  VolumeOffRounded as MuteIcon,
-  FullscreenRounded as FullscreenIcon,
-  FullscreenExitRounded as ExitFullscreenIcon,
-} from '@mui/icons-material';
+import { Stack, Button, RadioGroup, FormControlLabel, Radio } from "@mui/material"
 import ContentCard from "../ContentCard"
-import ImageCard from "../ImageCard"
 import { useSelector } from "react-redux";
 
 export default ({hidden}) => {
@@ -40,7 +27,7 @@ export default ({hidden}) => {
               <RadioGroup sx={{padding: "1rem 1.5rem"}}>
                   {assesment[question].options.map((opt, index) => (
                       <FormControlLabel
-                      key={index}
+                      key={`form_label_${index}`}
                       control={<Radio />}
                       label={opt}
                       checked={checked == index}

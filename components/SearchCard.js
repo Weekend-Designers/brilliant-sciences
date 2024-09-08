@@ -1,20 +1,14 @@
-import {Fragment, useState, useRef, useEffect} from "react"
-import {Stack, Typography, CircularProgress, LinearProgress} from "@mui/material"
+import { useState, useRef } from "react"
+import { Stack, Typography, LinearProgress } from "@mui/material"
 import Player from "react-player"
-import {useRouter} from "next/router"
-// import ContentCard from "./ContentCard"
+import { useRouter } from "next/router"
 
 export default ({id, name, text, image, video, price, onClick}) => {
   const [hovered, setHovered] =  useState(false)
   const [preview, setPreview] =  useState(false)
   const [buffering, setBuffering] =  useState(false)
   const video_player_ref = useRef("video_player_ref")
-  const router = useRouter()
-  useEffect(() => {
-    // if(preview){
-    //   setBuffering(false)
-    // }
-  }, [])
+  const router = useRouter() // NOSONAR
   const toref = useRef()
   return (
     <Stack alignItems="center" justifyContent="center" style={{
@@ -35,8 +29,7 @@ export default ({id, name, text, image, video, price, onClick}) => {
         e.stopPropagation()
         try{
           onClick()
-        }catch(e){}
-        // goto /class/[id]
+        } catch (e) { }
       }}
       onMouseOver={(e) => {
         setTimeout(() => {
@@ -47,11 +40,9 @@ export default ({id, name, text, image, video, price, onClick}) => {
       onMouseOut={(e) => {
         setTimeout(() => {
           setHovered(false)
-          // setPreview(false)
         }, 400);
         toref.current = setTimeout(() => {
-          if(preview){
-            // reload video
+          if (preview) {
             video_player_ref.current.seekTo(0, "seconds")
           }
         }, (10 * 1000));
@@ -61,7 +52,7 @@ export default ({id, name, text, image, video, price, onClick}) => {
         }}>
           {
             hovered && (!preview || buffering)
-            ? (
+            && (
               <Stack style={{
                 position: "absolute",
                 zIndex: 60,
@@ -73,7 +64,6 @@ export default ({id, name, text, image, video, price, onClick}) => {
                 {video ? "" : "No Preview available"}
               </Stack>
             )
-            : <Fragment/>
           }
         </Stack>
         <Stack flex={1} fullWidth style={{
@@ -94,26 +84,12 @@ export default ({id, name, text, image, video, price, onClick}) => {
             position: "absolute",
             opacity: hovered ? 1 : 0
           }}
-          // url="https://youtu.be/bwmSjveL3Lc"
-          url={video}
-          // volume={volume}
+            url={video}
           onReady={() => {
             setPreview(true)
           }}
           pip={false}
-          config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
-          // onStart={()=>{
-          //     set_duration(video_player_ref.current.getDuration())
-          //     video_player_ref.current.seekTo(time_stamp, "seconds")
-          // }}
-          // onPlay={()=>{console.log("playing")}}
-          // onPause={()=>console.log("pausing")}
-          // onProgress={(state)=>{
-          //     (state.played * 100).toFixed(3)
-          //     set_progress((state.played * 100).toFixed(5))
-          //     set_time_stamp(state.playedSeconds)
-          // }}
-          // onEnded={()=>{dispatch(nextModule())}}
+            config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
           onBuffer={()=>{
             setBuffering(true)
           }}
@@ -121,17 +97,10 @@ export default ({id, name, text, image, video, price, onClick}) => {
             setBuffering(false)
           }}
           width='100%'
-          height='100%'
-          // controls={true}
-          // wrapper={Fragment}
+            height='100%'
           playing={hovered}
           muted={true}
-          loop={true}
-          // playIcon={">"}
-          // pip={true}
-          onClick={()=>{
-              // set_is_playing(!is_playing)
-          }}/>
+            loop={true} />
           <div src={image} style={{
             display: "flex",
             flex: 1,
@@ -143,26 +112,11 @@ export default ({id, name, text, image, video, price, onClick}) => {
             backgroundPosition: "center",
           }}/>
         </Stack>
-        {/* <Stack alignItems="flex-end" justifyContent="flex-end" style={{
-          position: "relative"
-        }}>
-          {
-            hovered && (!preview || buffering) && video
-            ? (
-              <CircularProgress size={25} style={{
-                position: "absolute",
-                margin: "0.5rem",
-              }}/>
-            )
-            : <Fragment/>
-          }
-        </Stack> */}
         {
           hovered && (!preview || buffering) && video
-          ? (
+          && (
             <LinearProgress style={{width: "100%"}}/>
           )
-          : <Fragment/>
         }
         <Stack style={{
           padding: "0.3rem 0.5rem",

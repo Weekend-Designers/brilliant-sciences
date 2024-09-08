@@ -1,7 +1,6 @@
-import {Fragment, useState} from "react"
+import { useState } from "react"
 import {Stack, Button} from "@mui/material"
 import MenuButton from "./MenuButton"
-import Footer from "./Footer"
 import ProfilePage from "./adminPages/ProfilePage"
 import RequestsPage from "./adminPages/RequestsPage"
 import CoursesPage from "./adminPages/CoursesPage"
@@ -19,7 +18,6 @@ export default () => {
       <Stack style={{
         padding: "1rem",
         minWidth: "25%",
-        // background: "red"
         }}>
           <h3 style={{margin: ".5rem 0 1rem 0", textAlign: "center"}}>Settings</h3>
           <MenuButton key={1} id={1} onClick={(id) => {setPager(id)}} variant={pager == 1 ? "contained" : ""}>Profile</MenuButton>
@@ -49,15 +47,11 @@ export default () => {
           </Stack>
       </Stack>
       <Stack style={{
-        // padding: "1rem",
         flex: 1,
         flexDirection: "column",
         overflow: "overlay",
         minHeight: "100vh",
-        // background: "green"
-        }}>
-          {/* {renderPage(pager)} */}
-          {/* <Footer style={{backgroundColor: "white", margin: "2rem 0"}}/> */}
+      }}>
           <ProfilePage hidden={pager == 1}/>
           <RequestsPage hidden={pager == 3}/>
           <CoursesPage hidden={pager == 4}/>
@@ -78,6 +72,6 @@ const renderPage = (state) => {
     case 5:
       return <PricingPage/>
     default:
-      return <Fragment/>
+      return
   }
 }

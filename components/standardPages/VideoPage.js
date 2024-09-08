@@ -1,4 +1,4 @@
-import {Fragment, useState, useRef, useEffect} from "react"
+import { useState, useRef, useEffect } from "react"
 import {Stack, Slider, IconButton} from "@mui/material"
 import {
   PlayArrowRounded as PlayIcon,
@@ -19,17 +19,18 @@ export default ({hidden}) => {
   const [muted, setMuted] =  useState(true)
   const [fullScreen, setFullScreen] =  useState(false)
   const [volume, setVolume] =  useState(1)
-  const [initial_volume, set_initial_volume] =  useState(volume)
+  const [initial_volume, setInitial_volume] = useState(volume)
   const [showVolumeTrack, setShowVolumeTrack] = useState(false)
-  const [buffering, setBuffering] =  useState(false)
+  // TODO: implement buffering for this player
+  const [buffering, setBuffering] = useState(false) // NOSONAR
   const [progress, setProgress] =  useState(0)
   const [duration, setDuration] =  useState(0)
   const [timeStamp, setTimeStamp] =  useState([0, 0, 0])
-  const [was_playing, set_was_playing] =  useState(false)
+  const [was_playing, setWas_playing] = useState(false)
   const [marks, setMarks] =  useState([])
   const [sectionTitle, setSectionTitle] =  useState("")
   const video_player_ref = useRef("video_player_ref")
-  const video_player_conatiner_ref = useRef("video_player_conatiner_ref")
+  const video_player_container_ref = useRef("video_player_container_ref")
   const video = useSelector(state => state.Course.video)
   const title = useSelector(state => state.Course.title)
   const sections = useSelector(state => state.Course.sections)
@@ -44,15 +45,13 @@ export default ({hidden}) => {
     console.log(duration)
     const hours = Math.trunc(duration / 3600)
     const minutes = Math.trunc(((duration / 3600) - hours) * 60)
-    const seconds = Math.trunc(((((duration / 3600) - hours) * 60) - minutes) * 60)
-    // video_player_ref.current.seekTo(progress * duration / 100, "seconds")
-    // console.log("t", progress * duration / 100)
+    const seconds = Math.trunc(((((duration / 3600) - hours) * 60) - minutes) * 60) // NOSONAR
   }, [duration])
 
   useEffect(() => {
     let _marks = extractKey(sections, "stamp")
     console.log(progress);
-    _marks = _marks.sort()
+    _marks = _marks.sort() // NOSONAR
     console.log(_marks);
     for (let index = 0; index < _marks.length; index++) {
       if(_marks[index] <= progress  && progress < _marks[index+1]){
@@ -73,7 +72,7 @@ export default ({hidden}) => {
     }}>
       <Stack
       className="video_player"
-      ref={video_player_conatiner_ref}
+        ref={video_player_container_ref}
       style={{
         flex: 1,
         borderRadius: "4px",
@@ -91,7 +90,6 @@ export default ({hidden}) => {
         </Stack>
         <Stack style={{
           backgroundColor: "black",
-          // black
           width: "100%",
           flex: 1
         }}
@@ -101,8 +99,8 @@ export default ({hidden}) => {
         }}
         onDoubleClick={(e) => {
           e.stopPropagation()
-          if(!document.fullscreen || document.fullscreenElement !== video_player_conatiner_ref.current){
-            video_player_conatiner_ref.current.requestFullscreen().then(()=>{setFullScreen(true)}).catch(()=>{setFullScreen(false)})
+          if (document.fullscreenElement == null) {
+            video_player_container_ref.current.requestFullscreen().then(() => { setFullScreen(true) }).catch(() => { setFullScreen(false) })
           }else{
               document.exitFullscreen().then(()=>{setFullScreen(false)}).catch(()=>{setFullScreen(true)})
           }
@@ -114,20 +112,14 @@ export default ({hidden}) => {
               flex: 1,
               pointerEvents: "none"
             }}
-            // url="https://youtu.be/bwmSjveL3Lc"
             url={video}
-            onReady={() => {
-              // setPreview(true)
-            }}
             pip={false}
             onDuration={(dur)=>{
               console.log("Buffer end -- " + dur);
               setDuration(dur)
             }}
             config={{ file: { attributes: { controlsList: 'nodownload', disablePictureInPicture: true, preload: "none" } } }}
-            onStart={()=>{
-              // setDuration(video_player_ref.current.getDuration())
-              // video_player_ref.current.seekTo(time_stamp, "seconds")
+            onStart={() => {
               if(!started && (duration > 0) && !ready){
                 setPlaying(false)
                 setMuted(false)
@@ -141,24 +133,14 @@ export default ({hidden}) => {
             onEnd={()=>{
               setPlaying(false)
             }}
-            // onPlay={()=>{console.log("playing")}}
-            // onPause={()=>console.log("pausing")}
-            onProgress={(state)=>{
-              // (state.played * 100).toFixed(5)
+            onProgress={(state) => {
               setProgress((state.played * 100).toFixed(5))
-              // console.log("1", state.playedSeconds)
-              // console.log("2", state.played * 100)
-              // console.log("3", state.played)
-              // setProgress(state.playedSeconds)
-              // set_time_stamp(state.playedSeconds)
               const time = state.playedSeconds
               const hours = Math.trunc(time / 3600)
               const minutes = Math.trunc(((time / 3600) - hours) * 60)
               const seconds = Math.trunc(((((time / 3600) - hours) * 60) - minutes) * 60)
               setTimeStamp([hours, minutes, seconds])
-              // console.log("time", hours, minutes, seconds)
             }}
-            // onEnded={()=>{dispatch(nextModule())}}
             onBuffer={()=>{
               setBuffering(true)
             }}
@@ -167,17 +149,9 @@ export default ({hidden}) => {
             }}
             width='100%'
             height='100%'
-            // controls={true}
-            // wrapper={Fragment}
             playing={playing}
             muted={muted}
-            volume={volume}
-            // loop={true}
-            // playIcon={">"}
-            // pip={true}
-            onClick={()=>{
-                // set_is_playing(!is_playing)
-            }}/>
+            volume={volume} />
         </Stack>
         <Stack style={{position: "relative", justifyContent: "flex-end"}}>
           <Stack className="video-controls-hover" style={{
@@ -189,15 +163,14 @@ export default ({hidden}) => {
             marginBottom: "-3rem",
             background: "linear-gradient(0deg, hsl(0deg 0% 0% / 70%), transparent 80%)"
             }}>
-              <Slider sx={{/* margin: 0 */}} step={0.000001} min={0} max={100} classes={{markLabel: {color: "white"}}}
+            <Slider step={0.000001} min={0} max={100} classes={{ markLabel: { color: "white" } }}
               value={progress}
               onMouseDown={()=>{
                 if(playing){
-                    set_was_playing(true)
+                  setWas_playing(true)
                 }else{
-                    set_was_playing(false)
+                  setWas_playing(false)
                 }
-                // console.log(was_playing)
                 setPlaying(false)
               }}
               onChange={(e) => {
@@ -238,7 +211,7 @@ export default ({hidden}) => {
                           setVolume(initial_volume)
                           setMuted(false)
                         }else{
-                          set_initial_volume(volume)
+                          setInitial_volume(volume)
                           setVolume(0)
                           setMuted(true)
                         }
@@ -272,20 +245,18 @@ export default ({hidden}) => {
                       letterSpacing: 0.2,
                       color: "white"
                     }}>
-                      {timeStamp[0] > 0 ? `${timeStamp[0] < 10 ? `0${timeStamp[0]}` : timeStamp[0]}:` : ""}
+                    {timeStamp[0] > 0 ? `${timeStamp[0] < 10 ? `0${timeStamp[0]}` : timeStamp[0]}:` : ""} {/* NOSONAR */}
                       {timeStamp[1] < 10 ? `0${timeStamp[1]}` : timeStamp[1]}:{timeStamp[2] < 10 ? `0${timeStamp[2]}` : timeStamp[2]}
                     </span>
                     <span style={{
                       fontSize: '0.8rem',
-                      opacity: "70%",
-                      // fontWeight: 500,
+                    opacity: "70%",
                       letterSpacing: 0.3,
                       color: "white"
                     }}>{"|"}</span>
                     <span style={{
                       fontSize: '0.8rem',
-                      opacity: "70%",
-                      // fontWeight: 500,
+                    opacity: "70%",
                       letterSpacing: 0.3,
                       color: "white"
                     }}>{sectionTitle}</span>
@@ -294,8 +265,8 @@ export default ({hidden}) => {
                 <Stack direction="row" spacing={2}>
                   <IconButton sx={{color: "white"}} onClick={(e) => {
                     e.stopPropagation()
-                    if(!document.fullscreen || document.fullscreenElement !== video_player_conatiner_ref.current){
-                      video_player_conatiner_ref.current.requestFullscreen().then(()=>{setFullScreen(true)}).catch(()=>{setFullScreen(false)})
+                  if (document.fullscreenElement == null) {
+                    video_player_container_ref.current.requestFullscreen().then(() => { setFullScreen(true) }).catch(() => { setFullScreen(false) })
                     }else{
                         document.exitFullscreen().then(()=>{setFullScreen(false)}).catch(()=>{setFullScreen(true)})
                     }

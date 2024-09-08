@@ -14,7 +14,7 @@ export default function Home() {
   return (
     <Fragment>
       <Head>
-        <title>Brilliant Scinces | Home</title>
+        <title>Brilliant Sciences | Home</title>
         <link rel="icon" href="/brilliant sciences.svg" />
       </Head>
       <main className={classList("flex","flex-column","Index")}>
@@ -36,9 +36,9 @@ export default function Home() {
                 <br/>
                 <Stack component="span" direction="row" spacing={2}>
                   {
-                    loggedIn // is_logged_in
-                    ? <Fragment/>
-                    : <Button href="/search" variant="contained">Get an Insight</Button>
+                    // is_logged_in
+                    !loggedIn
+                    && <Button href="/search" variant="contained">Get an Insight</Button>
                   }
                   <Button href="/class" variant={loggedIn /* is_logged_in */ ? "contained" : "outlined"}>Continue where you left</Button>
                 </Stack>

@@ -8,13 +8,12 @@ import useWindowSize from "../hooks/useWindowSize"
 
 export default ({ className }) => {
   const router = useRouter();
-  const loggedIn = useSelector(state => state.User.loggedIn)
-  //   ERROR
+    const loggedIn = useSelector(state => state.User.loggedIn)
   const [menu, setMenu] = useState(false)
-  const {width, height} = useWindowSize()
+    const { width } = useWindowSize()
 
   useEffect(() => {
-    setMenu(width > 1024 ? true : false)
+      setMenu(width > 1024)
   }, [width])
   
 
@@ -24,7 +23,6 @@ export default ({ className }) => {
         "flex",
         "full-width",
         "justify-space-between",
-        // responsive
         "lg:flex-row",
         "lg:justify-between",
         "xsm:flex-col",
@@ -34,26 +32,17 @@ export default ({ className }) => {
             "flex",
             "flex-1",
             "justify-end",
-            // "align-center",
             "w-full",
             "justify-between"
         )}>
-            <img src="/brilliant sciences.svg" style={{height: "2.7rem"}}/>
-            {/* <span>
-                <b>B</b>rilliant
-            </span>
-            <span>
-                <b>S</b>ciences
-            </span> */}
+              <img src="/brilliant sciences.svg" style={{ height: "2.7rem" }} alt="brilliant sciences logo" />
             <IconButton sx={{color: "white"}} onClick={(e) => {
                 e.stopPropagation()
                 setMenu(!menu)
             }} className={classList("lg:hidden","xsm:flex")}><MenuIcon/></IconButton>
         </div>
-        <ul className={classList(
-            // "flex",
+          <ul className={classList(
             "justify-space-between",
-            // responsive
             "lg:flex-row",
             "lg:max-w-3/5",
             "lg:w-auto",
@@ -77,7 +66,7 @@ export default ({ className }) => {
                 router.pathname != "/account" &&
                 router.pathname != "/class" &&
                 router.pathname != "/class/[id]" &&
-                !loggedIn // is_logged_in
+                  !loggedIn // is logged in
             )
             ? <Fragment>
                 <Button variant="contained" href="/account/signup" style={{
