@@ -17,10 +17,7 @@ import "../styles/header.css"
 import "../styles/footer.css"
 
 // redux
-import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import reducers from '../redux/reducers'
-import { composeWithDevTools } from "@redux-devtools/extension"
 import { store } from '../redux'
 
 app()
