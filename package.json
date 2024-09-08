@@ -6,6 +6,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@biomejs/biome": "^1.8.3",
     "@date-io/date-fns": "^2.13.1",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
