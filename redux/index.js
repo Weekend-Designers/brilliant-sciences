@@ -1,13 +1,14 @@
-import { createStore } from "redux"
-import reducers from './reducers'
+import { configureStore } from "@reduxjs/toolkit"
 import { composeWithDevTools } from '@redux-devtools/extension'
+import User from "./reducers/User"
+import Course from "./reducers/Course"
+import Platform from "./reducers/Platform"
 
-// window.__REDUX_DEVTOOLS_EXTENSION__ &&
-// window.__REDUX_DEVTOOLS_EXTENSION__({ trace: true, traceLimit: 25 })
-// { trace: true, traceLimit: 25 }
-const store = createStore(
-    reducers,
-    composeWithDevTools()
-)
-
-export default store
+export const store = configureStore({
+    reducer: {
+        User,
+        Course,
+        Platform
+    },
+    devTools: composeWithDevTools()
+})

@@ -1,6 +1,6 @@
 // components
 import Head from 'next/head'
-import { Fragment, useEffect } from "react"
+import { useEffect } from "react"
 import Header from "../components/Header"
 import Footer from "../components/Footer"
 import StoreWorker from "../components/StoreWorker"
@@ -21,10 +21,7 @@ import { createStore } from 'redux'
 import { Provider } from 'react-redux'
 import reducers from '../redux/reducers'
 import { composeWithDevTools } from "@redux-devtools/extension"
-
-const store = createStore(
-    reducers, composeWithDevTools()
-)
+import { store } from '../redux'
 
 app()
 
