@@ -1,18 +1,15 @@
 import { initializeApp, getApps, getApp } from "firebase/app"
 import "firebase/auth"
 import "firebase/firestore"
-import dotenv from "dotenv"
-
-dotenv.config()
 
 const firebaseConfig = {
-  apiKey: process.env.FIREBABSE_apiKey,
-  authDomain: process.env.FIREBABSE_authDomain,
-  projectId: process.env.FIREBABSE_projectId,
-  storageBucket: process.env.FIREBABSE_storageBucket,
-  messagingSenderId: process.env.FIREBABSE_messagingSenderId,
-  appId: process.env.FIREBABSE_appId,
-  measurementId: process.env.FIREBABSE_measurementId,
+  apiKey: process.env.NEXT_PUBLIC_FIREBASE_apiKey,
+  authDomain: process.env.NEXT_PUBLIC_FIREBASE_authDomain,
+  projectId: process.env.NEXT_PUBLIC_FIREBASE_projectId,
+  storageBucket: process.env.NEXT_PUBLIC_FIREBASE_storageBucket,
+  messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_messagingSenderId,
+  appId: process.env.NEXT_PUBLIC_FIREBASE_appId,
+  measurementId: process.env.NEXT_PUBLIC_FIREBASE_measurementId,
 }
 
 // Initialize Firebase
@@ -20,7 +17,6 @@ export const app = () => {
   if(!getApps().length){
     return initializeApp(firebaseConfig)
   } else {
-    getApp()
+    return getApp()
   }
-  console.log("There")
 }
