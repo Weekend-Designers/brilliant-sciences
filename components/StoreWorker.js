@@ -19,48 +19,49 @@ export default () => {
     if (user) {
       const db = getFirestore(getApp())
       const docRef = doc(db, "Users", user.reloadUserInfo.localId)
-      const docSnap = getDoc(docRef)
-      if (docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        dispatch(SET("init user", docSnap.data()))
-        dispatch(SET("init course", docSnap.data().latest_course))
-        dispatch(SET("init user", {loggedIn: true}))
-      } else {
-        console.log("Signing you Up!");
-        if(router.pathname == "/account/login"){
-          const createAc = confirm("You have no account, Please Sign Up")
-          if (createAc) {
-            router.push("/account/signup")
+      getDoc(docRef).then((docSnap) => {
+        if (docSnap.exists()) {
+          console.log("Document data:", docSnap.data());
+          dispatch(SET("init user", docSnap.data()))
+          dispatch(SET("init course", docSnap.data().latest_course))
+          dispatch(SET("init user", {loggedIn: true}))
+        } else {
+          console.log("Signing you Up!");
+          if(router.pathname === "/account/login"){
+            const createAc = confirm("You have no account, Please Sign Up")
+            if (createAc) {
+              router.push("/account/signup")
+            }
+          }
+          if(router.pathname === "/account/signup"){
+            const storage = getStorage();
+            const profileRef = ref(storage, `Profiles/${user.reloadUserInfo.localId}.jpg`);
+            uploadBytes(profileRef, user.reloadUserInfo.photoUrl).then((snapshot) => { });
+
+            const photo = getDownloadURL(profileRef)
+            const usersRef = collection(db, "Users")
+            setDoc(doc(usersRef, user.reloadUserInfo.localId), {
+              email: user.reloadUserInfo.email,
+              id: user.reloadUserInfo.localId,
+              is_admin: false,
+              latest_course: "",
+              performance: [],
+              photo: photo,
+              preferred_course: "",
+              pricing_plan: "",
+              theme: "",
+              username: user.reloadUserInfo.displayName
+            });
+            const _docRef = doc(db, "Users", user.reloadUserInfo.localId)
+            const _docSnap = getDoc(_docRef)
+            if (_docSnap.exists()) {
+              console.log("Document data:", _docSnap.data());
+              dispatch(SET("init user", _docSnap.data()))
+              dispatch(SET("init user", {loggedIn: true}))
+            }
           }
         }
-        if(router.pathname == "/account/signup"){
-          const storage = getStorage();
-          const profileRef = ref(storage, `Profiles/${user.reloadUserInfo.localId}.jpg`);
-          uploadBytes(profileRef, user.reloadUserInfo.photoUrl).then((snapshot) => { });
-          
-          const photo = getDownloadURL(profileRef)
-          const usersRef = collection(db, "Users")
-          setDoc(doc(usersRef, user.reloadUserInfo.localId), {
-            email: user.reloadUserInfo.email,
-            id: user.reloadUserInfo.localId,
-            is_admin: false,
-            latest_course: "",
-            performance: [],
-            photo: photo,
-            preferred_course: "",
-            pricing_plan: "",
-            theme: "",
-            username: user.reloadUserInfo.displayName
-          });
-          const _docRef = doc(db, "Users", user.reloadUserInfo.localId)
-          const _docSnap = getDoc(_docRef)
-          if (_docSnap.exists()) {
-            console.log("Document data:", _docSnap.data());
-            dispatch(SET("init user", _docSnap.data()))
-            dispatch(SET("init user", {loggedIn: true}))
-          }
-        }
-      }
+      });
     }else{
       dispatch(SET("init user", {
         email: null,
