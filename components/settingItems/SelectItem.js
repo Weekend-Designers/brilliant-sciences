@@ -13,7 +13,7 @@ export default ({text, options, value, onChange}) => {
         {
           options && (
             options.map((opt, index) => (
-              <MenuItem value={index+1} onClick={()=>{
+              <MenuItem key={"preferred-course-select-label"+index} value={index+1} onClick={()=>{
                 setValue(index+1);
                 try{
                   onChange(opt, index+1)
